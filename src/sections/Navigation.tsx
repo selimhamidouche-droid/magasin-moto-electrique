@@ -17,6 +17,7 @@ export default function Navigation({
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   const [isLightSection, setIsLightSection] = useState(!dark);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -33,8 +34,6 @@ export default function Navigation({
       
       const lightSectionIds = ['destinations', 'fleet', 'anatomy', 'tiers', 'footer'];
       
-      // If the page has a hero section, we default to dark theme when at the top.
-      // If there is no hero section, we default to light theme (since detail/other pages have light backgrounds).
       const hasHero = !!document.getElementById('hero');
       let isInLightSection = !hasHero;
 
@@ -65,6 +64,7 @@ export default function Navigation({
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     e.preventDefault();
+    setIsMobileMenuOpen(false); // Close menu on click
     if (targetId.startsWith('/')) {
       navigate(targetId);
       return;
@@ -88,85 +88,180 @@ export default function Navigation({
   }
 
   return (
-    <nav
-      ref={navRef}
-      aria-label="Navigation principale"
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        zIndex: 100,
-        padding: scrolled ? '8px 4px' : '16px 4px',
-        transition: 'padding 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
-      }}
-    >
-      <div
-        className="liquid-glass"
+    <>
+      <nav
+        ref={navRef}
+        aria-label="Navigation principale"
         style={{
-          maxWidth: '1200px',
-          margin: '0 auto',
-          padding: 'clamp(8px, 2vw, 12px) clamp(12px, 3vw, 24px)',
-          borderRadius: '12px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          backgroundColor: scrolled
-            ? isLightSection
-              ? 'rgba(240, 236, 215, 0.85)' // Match cream/beige `#f0ecd7`
-              : 'rgba(24, 12, 4, 0.85)'     // Match dark brown `#0F0F0F`
-            : 'rgba(255, 255, 255, 0.01)',
-          transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          zIndex: 100,
+          padding: scrolled ? '8px 4px' : '16px 4px',
+          transition: 'padding 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
         }}
       >
-        {navigationConfig.brandName ? (
-          <a
-            href="#hero"
-            onClick={(e) => handleNavClick(e, '#hero')}
-            aria-label={`${navigationConfig.brandName} — Retour en haut de page`}
-            style={{
-              fontFamily: '"Montserrat", system-ui, sans-serif',
-              fontSize: 'clamp(16px, 4vw, 22px)',
-              fontWeight: 500,
-              color: baseTextColor,
-              letterSpacing: '2px',
-              textDecoration: 'none',
-              textTransform: 'uppercase',
-              transition: 'color 0.6s ease',
-            }}
-          >
-            {navigationConfig.brandName}
-          </a>
-        ) : (
-          <div />
-        )}
-
-        <div role="list" style={{ display: 'flex', gap: 'clamp(12px, 2vw, 36px)', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
-          {navigationConfig.links.map((item) => (
+        <div
+          className="liquid-glass"
+          style={{
+            maxWidth: '1200px',
+            margin: '0 auto',
+            padding: 'clamp(8px, 2vw, 12px) clamp(12px, 3vw, 24px)',
+            borderRadius: '12px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            backgroundColor: scrolled
+              ? isLightSection
+                ? 'rgba(240, 236, 215, 0.85)' // Match cream/beige `#f0ecd7`
+                : 'rgba(24, 12, 4, 0.85)'     // Match dark brown `#0F0F0F`
+              : 'rgba(255, 255, 255, 0.01)',
+            transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+          }}
+        >
+          {navigationConfig.brandName ? (
             <a
-              key={`${item.label}-${item.target}`}
-              href={item.target}
-              onClick={(e) => handleNavClick(e, item.target)}
-              className="nav-link nav-link-animated"
-              role="listitem"
+              href="#hero"
+              onClick={(e) => handleNavClick(e, '#hero')}
+              aria-label={`${navigationConfig.brandName} — Retour en haut de page`}
               style={{
                 fontFamily: '"Montserrat", system-ui, sans-serif',
-                fontSize: 'clamp(9px, 2vw, 11px)',
-                fontWeight: 600,
+                fontSize: 'clamp(16px, 4vw, 22px)',
+                fontWeight: 500,
                 color: baseTextColor,
-                letterSpacing: '1.3px',
+                letterSpacing: '2px',
                 textDecoration: 'none',
                 textTransform: 'uppercase',
                 transition: 'color 0.6s ease',
-                opacity: 0.85,
+              }}
+            >
+              {navigationConfig.brandName}
+            </a>
+          ) : (
+            <div />
+          )}
+
+          {/* Desktop Nav */}
+          <div className="desktop-nav" role="list" style={{ display: 'flex', gap: '36px', alignItems: 'center' }}>
+            {navigationConfig.links.map((item) => (
+              <a
+                key={`${item.label}-${item.target}`}
+                href={item.target}
+                onClick={(e) => handleNavClick(e, item.target)}
+                className="nav-link nav-link-animated"
+                role="listitem"
+                style={{
+                  fontFamily: '"Montserrat", system-ui, sans-serif',
+                  fontSize: '11px',
+                  fontWeight: 600,
+                  color: baseTextColor,
+                  letterSpacing: '1.3px',
+                  textDecoration: 'none',
+                  textTransform: 'uppercase',
+                  transition: 'color 0.6s ease',
+                  opacity: 0.85,
+                }}
+                onMouseEnter={(e) => {
+                  (e.target as HTMLAnchorElement).style.color = hoverTextColor;
+                  (e.target as HTMLAnchorElement).style.opacity = '1';
+                }}
+                onMouseLeave={(e) => {
+                  (e.target as HTMLAnchorElement).style.color = baseTextColor;
+                  (e.target as HTMLAnchorElement).style.opacity = '0.85';
+                }}
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
+
+          {/* Mobile Nav Toggle */}
+          <button
+            className="mobile-nav-toggle"
+            onClick={() => setIsMobileMenuOpen(true)}
+            aria-label="Ouvrir le menu"
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              color: baseTextColor,
+              padding: '8px',
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Menu Overlay */}
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          backgroundColor: 'rgba(15, 15, 15, 0.95)',
+          backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)',
+          zIndex: 1000,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          opacity: isMobileMenuOpen ? 1 : 0,
+          pointerEvents: isMobileMenuOpen ? 'auto' : 'none',
+          transition: 'opacity 0.4s ease',
+        }}
+      >
+        <button
+          onClick={() => setIsMobileMenuOpen(false)}
+          aria-label="Fermer le menu"
+          style={{
+            position: 'absolute',
+            top: '24px',
+            right: '24px',
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            color: '#FDFBF7',
+            padding: '8px',
+          }}
+        >
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+        
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', textAlign: 'center' }}>
+          {navigationConfig.links.map((item) => (
+            <a
+              key={`mobile-${item.label}-${item.target}`}
+              href={item.target}
+              onClick={(e) => handleNavClick(e, item.target)}
+              style={{
+                fontFamily: '"Montserrat", system-ui, sans-serif',
+                fontSize: '24px',
+                fontWeight: 600,
+                color: '#FDFBF7',
+                letterSpacing: '2px',
+                textDecoration: 'none',
+                textTransform: 'uppercase',
+                transition: 'color 0.3s ease',
               }}
               onMouseEnter={(e) => {
-                (e.target as HTMLAnchorElement).style.color = hoverTextColor;
-                (e.target as HTMLAnchorElement).style.opacity = '1';
+                (e.target as HTMLAnchorElement).style.color = '#D4AF37';
               }}
               onMouseLeave={(e) => {
-                (e.target as HTMLAnchorElement).style.color = baseTextColor;
-                (e.target as HTMLAnchorElement).style.opacity = '0.85';
+                (e.target as HTMLAnchorElement).style.color = '#FDFBF7';
               }}
             >
               {item.label}
@@ -174,6 +269,6 @@ export default function Navigation({
           ))}
         </div>
       </div>
-    </nav>
+    </>
   );
 }
