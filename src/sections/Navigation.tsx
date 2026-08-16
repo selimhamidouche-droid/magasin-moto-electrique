@@ -237,10 +237,11 @@ export default function Navigation({
           display: 'flex',
           flexDirection: 'column',
           gap: '24px',
-          transform: isMobileMenuOpen ? 'translateY(0) scale(1)' : 'translateY(-15px) scale(0.95)',
+          transformOrigin: 'top right',
+          transform: isMobileMenuOpen ? 'scale(1)' : 'scale(0.3)',
           opacity: isMobileMenuOpen ? 1 : 0,
           pointerEvents: isMobileMenuOpen ? 'auto' : 'none',
-          transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+          transition: 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)',
           boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
         }}
       >
