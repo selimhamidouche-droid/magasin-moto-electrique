@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import { useNavigate } from 'react-router-dom';
 import { heroConfig as defaultHeroConfig } from '../config';
 import type { HeroConfig } from '../config';
 
@@ -9,6 +10,7 @@ interface HeroProps {
 
 export default function Hero({ config = defaultHeroConfig }: HeroProps) {
   const heroConfig = config;
+  const navigate = useNavigate();
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
@@ -205,8 +207,17 @@ export default function Hero({ config = defaultHeroConfig }: HeroProps) {
             onClick={(e) => {
               e.preventDefault();
               if (!heroConfig.ctaTargetId) return;
-              const el = document.querySelector(heroConfig.ctaTargetId);
-              if (el) el.scrollIntoView({ behavior: 'smooth' });
+              
+              if (heroConfig.ctaTargetId.startsWith('/')) {
+                navigate(heroConfig.ctaTargetId);
+              } else {
+                try {
+                  const el = document.querySelector(heroConfig.ctaTargetId);
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                } catch (err) {
+                  console.error("Invalid selector", err);
+                }
+              }
             }}
             style={{
               fontFamily: '"Montserrat", system-ui, sans-serif',

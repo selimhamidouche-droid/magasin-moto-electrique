@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getLenis } from '../hooks/useLenis';
 import { navigationConfig as defaultNavigationConfig } from '../config';
 import type { NavigationConfig } from '../config';
@@ -13,6 +14,7 @@ export default function Navigation({
   dark = false,
 }: NavigationProps) {
   const navigationConfig = config;
+  const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   const [isLightSection, setIsLightSection] = useState(!dark);
   const navRef = useRef<HTMLElement>(null);
@@ -63,12 +65,21 @@ export default function Navigation({
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     e.preventDefault();
-    const lenis = getLenis();
-    if (lenis) {
-      lenis.scrollTo(targetId);
-    } else {
-      const el = document.querySelector(targetId);
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    if (targetId.startsWith('/')) {
+      navigate(targetId);
+      return;
+    }
+    
+    try {
+      const lenis = getLenis();
+      if (lenis) {
+        lenis.scrollTo(targetId);
+      } else {
+        const el = document.querySelector(targetId);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }
+    } catch (err) {
+      console.error("Navigation error:", err);
     }
   };
 
