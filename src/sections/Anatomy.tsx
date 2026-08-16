@@ -11,38 +11,36 @@ interface AnatomyProps {
   config?: AnatomyConfig;
 }
 
+import { useGSAP } from '@gsap/react';
+
 export default function Anatomy({ config = defaultAnatomyConfig }: AnatomyProps) {
   const anatomyConfig = config;
   const sectionRef = useRef<HTMLDivElement>(null);
   const pillarRefs = useRef<(HTMLDivElement | null)[]>([]);
   const pillars = anatomyConfig.pillars;
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      pillarRefs.current.forEach((el) => {
-        if (!el) return;
-        gsap.fromTo(
-          el,
-          { opacity: 0, y: 60 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1.2,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: el,
-              start: 'top 75%',
-              end: 'top 40%',
-              scrub: false,
-              toggleActions: 'play none none reverse',
-            },
-          }
-        );
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+  useGSAP(() => {
+    pillarRefs.current.forEach((el) => {
+      if (!el) return;
+      gsap.fromTo(
+        el,
+        { opacity: 0, y: 60 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1.2,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 75%',
+            end: 'top 40%',
+            scrub: false,
+            toggleActions: 'play none none reverse',
+          },
+        }
+      );
+    });
+  }, { scope: sectionRef });
 
   if (!anatomyConfig.sectionLabel && !anatomyConfig.title && pillars.length === 0) {
     return null;

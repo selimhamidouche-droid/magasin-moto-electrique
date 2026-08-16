@@ -8,6 +8,8 @@ interface HeroProps {
   config?: HeroConfig;
 }
 
+import { useGSAP } from '@gsap/react';
+
 export default function Hero({ config = defaultHeroConfig }: HeroProps) {
   const heroConfig = config;
   const navigate = useNavigate();
@@ -24,7 +26,7 @@ export default function Hero({ config = defaultHeroConfig }: HeroProps) {
     heroConfig.subtitleLine2 ||
     heroConfig.ctaText;
 
-  useEffect(() => {
+  useGSAP(() => {
     if (!hasHeroContent) return;
 
     const tl = gsap.timeline({ delay: 0.4 });
@@ -49,11 +51,7 @@ export default function Hero({ config = defaultHeroConfig }: HeroProps) {
         '-=0.4'
       );
     }
-
-    return () => {
-      tl.kill();
-    };
-  }, [hasHeroContent]);
+  }, { dependencies: [hasHeroContent], scope: containerRef });
 
   if (!hasHeroContent) {
     return null;
