@@ -109,7 +109,6 @@ export default function Navigation({
             margin: '0 auto',
             padding: 'clamp(8px, 2vw, 12px) clamp(12px, 3vw, 24px)',
             borderRadius: '12px',
-            borderBottomRightRadius: isMobileMenuOpen ? '0' : '12px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -223,13 +222,61 @@ export default function Navigation({
             }} />
           </button>
           
+          {/* Cover block to erase bottom border of header */}
+          <div style={{
+            position: 'absolute',
+            bottom: 0,
+            right: '24px',
+            width: '200px',
+            height: '3px',
+            backgroundColor: (scrolled || isMobileMenuOpen)
+              ? isLightSection ? 'rgba(240, 236, 215, 0.95)' : 'rgba(24, 12, 4, 0.95)'
+              : 'transparent',
+            opacity: isMobileMenuOpen ? 1 : 0,
+            zIndex: 20,
+            transition: 'opacity 0.3s ease',
+            pointerEvents: 'none',
+          }} />
+
+          {/* Left Concave Corner (Arrondi vers l'extérieur) */}
+          <div style={{
+            position: 'absolute',
+            bottom: 0,
+            right: '212px', // 224 - 12
+            width: '12px',
+            height: '12px',
+            backgroundColor: 'transparent',
+            borderBottomLeftRadius: '12px',
+            boxShadow: `-12px 12px 0 0 ${(scrolled || isMobileMenuOpen) ? (isLightSection ? 'rgba(240, 236, 215, 0.95)' : 'rgba(24, 12, 4, 0.95)') : 'transparent'}`,
+            opacity: isMobileMenuOpen ? 1 : 0,
+            pointerEvents: 'none',
+            zIndex: 20,
+            transition: 'opacity 0.3s ease',
+          }} />
+
+          {/* Right Concave Corner (Arrondi vers l'extérieur) */}
+          <div style={{
+            position: 'absolute',
+            bottom: 0,
+            right: '24px',
+            width: '12px',
+            height: '12px',
+            backgroundColor: 'transparent',
+            borderBottomRightRadius: '12px',
+            boxShadow: `12px 12px 0 0 ${(scrolled || isMobileMenuOpen) ? (isLightSection ? 'rgba(240, 236, 215, 0.95)' : 'rgba(24, 12, 4, 0.95)') : 'transparent'}`,
+            opacity: isMobileMenuOpen ? 1 : 0,
+            pointerEvents: 'none',
+            zIndex: 20,
+            transition: 'opacity 0.3s ease',
+          }} />
+
           {/* L-Shape Dropdown Menu attached to Nav */}
           <div
             style={{
               position: 'absolute',
               top: '100%',
-              right: '-1px', // Align with the border of the nav
-              width: '240px',
+              right: '24px',
+              width: '200px',
               height: isMobileMenuOpen ? `${navigationConfig.links.length * 56 + 32}px` : '0px',
               backgroundColor: (scrolled || isMobileMenuOpen)
                 ? isLightSection
@@ -238,36 +285,22 @@ export default function Navigation({
                 : 'rgba(255, 255, 255, 0.1)',
               backdropFilter: 'blur(20px)',
               WebkitBackdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255, 255, 255, 0.15)',
-              borderTop: 'none', // Fuse with the nav bar
+              border: isMobileMenuOpen ? '1px solid rgba(255, 255, 255, 0.15)' : 'none',
+              borderTop: 'none',
               borderBottomLeftRadius: '16px',
               borderBottomRightRadius: '16px',
-              borderTopLeftRadius: '16px',
+              borderTopLeftRadius: '0',
               borderTopRightRadius: '0',
               transition: 'height 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)',
               overflow: 'hidden',
               display: 'flex',
               flexDirection: 'column',
-              padding: isMobileMenuOpen ? '20px 24px' : '0 24px',
+              padding: isMobileMenuOpen ? '20px' : '0 20px',
               gap: '24px',
-              zIndex: 99,
+              zIndex: 19,
             }}
           >
-            {/* We use a tiny cover block to hide the nav's bottom border at the junction */}
-            <div style={{
-              position: 'absolute',
-              top: '-1px',
-              right: 0,
-              width: '240px',
-              height: '2px',
-              backgroundColor: (scrolled || isMobileMenuOpen)
-                ? isLightSection
-                  ? 'rgba(240, 236, 215, 0.95)'
-                  : 'rgba(24, 12, 4, 0.95)'
-                : 'rgba(255, 255, 255, 0.1)',
-              zIndex: 10,
-              opacity: isMobileMenuOpen ? 1 : 0,
-            }} />
+            {/* We no longer need the inner cover block because we moved it outside */}
 
             {navigationConfig.links.map((item, i) => (
               <a
