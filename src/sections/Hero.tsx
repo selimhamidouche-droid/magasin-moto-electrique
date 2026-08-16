@@ -85,6 +85,7 @@ export default function Hero({ config = defaultHeroConfig }: HeroProps) {
             loop
             playsInline
             aria-hidden="true"
+            poster={heroConfig.videoPoster}
             style={{
               position: 'absolute',
               top: 0,

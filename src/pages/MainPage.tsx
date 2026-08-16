@@ -39,7 +39,7 @@ export default function MainPage() {
           <div className="animate-slow-zoom" style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
             {frenchConfig.heroConfig.videoPath && (
               frenchConfig.heroConfig.videoPath.endsWith('.mp4') ? (
-                <video autoPlay muted loop playsInline aria-hidden="true" style={{ width: '100%', height: '100%', objectFit: 'cover' }}>
+                <video autoPlay muted loop playsInline aria-hidden="true" poster={frenchConfig.heroConfig.videoPoster} style={{ width: '100%', height: '100%', objectFit: 'cover' }}>
                   <source src={frenchConfig.heroConfig.videoPath} type="video/mp4" />
                 </video>
               ) : (
@@ -222,7 +222,7 @@ export default function MainPage() {
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
                 gap: '60px 48px',
               }}
             >
@@ -428,6 +428,7 @@ export default function MainPage() {
               {frenchMainPageConfig.fleet.map((car, index) => (
                 <div
                   key={car.title}
+                  className="mobile-col"
                   style={{
                     display: 'flex',
                     flexDirection: index % 2 === 0 ? 'row' : 'row-reverse',
@@ -564,7 +565,7 @@ export default function MainPage() {
             </p>
 
             <a
-              href="/membership"
+              href="/catalogue"
               style={{
                 display: 'inline-block',
                 fontFamily: '"Montserrat", system-ui, sans-serif',

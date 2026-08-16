@@ -106,7 +106,7 @@ export default function Navigation({
         style={{
           maxWidth: '1200px',
           margin: '0 auto',
-          padding: '12px 24px',
+          padding: 'clamp(8px, 2vw, 12px) clamp(12px, 3vw, 24px)',
           borderRadius: '12px',
           display: 'flex',
           alignItems: 'center',
@@ -151,7 +151,7 @@ export default function Navigation({
               role="listitem"
               style={{
                 fontFamily: '"Montserrat", system-ui, sans-serif',
-                fontSize: '11px',
+                fontSize: 'clamp(9px, 2vw, 11px)',
                 fontWeight: 600,
                 color: baseTextColor,
                 letterSpacing: '1.3px',

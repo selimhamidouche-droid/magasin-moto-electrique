@@ -16,6 +16,7 @@ export interface NavigationConfig {
 
 export interface HeroConfig {
   videoPath: string
+  videoPoster?: string
   eyebrow: string
   titleLine: string
   titleEmphasis: string
@@ -132,6 +133,7 @@ export const frenchConfig = {
   },
   heroConfig: {
     videoPath: "./videos/lightbee.mp4",
+    videoPoster: "./images/lb-1-1024x683.jpeg",
     eyebrow: "Concessionnaire Moto 100% en Ligne",
     titleLine: "Ta Prochaine Moto",
     titleEmphasis: "Livrée en 72h",

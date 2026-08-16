@@ -207,3 +207,17 @@
     100% { transform: translate(-20px, 20px); opacity: 0.6; }
   }
 }
+
+@media (max-width: 768px) {
+  .mobile-col {
+    flex-direction: column !important;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .nav-links-mobile {
+    display: none !important;
+  }
+}
+
