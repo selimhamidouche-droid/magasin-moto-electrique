@@ -217,75 +217,59 @@ export default function Navigation({
         }}
       />
 
-      {/* Mobile Menu Sidebar */}
+      {/* Mobile Menu Dropdown (Floating Glass Pill) */}
       <div
         style={{
-          position: 'fixed',
-          top: 0,
-          right: 0,
-          width: '80%',
-          maxWidth: '300px',
-          height: '100%',
-          backgroundColor: 'rgba(240, 236, 215, 0.65)',
+          position: 'absolute',
+          top: '72px',
+          right: '8px',
+          padding: '20px 24px',
+          borderRadius: '16px',
+          backgroundColor: scrolled
+            ? isLightSection
+              ? 'rgba(240, 236, 215, 0.95)'
+              : 'rgba(24, 12, 4, 0.95)'
+            : 'rgba(255, 255, 255, 0.1)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          borderLeft: '1px solid rgba(255, 255, 255, 0.3)',
+          border: '1px solid rgba(255, 255, 255, 0.15)',
           zIndex: 1000,
           display: 'flex',
           flexDirection: 'column',
-          paddingTop: '80px',
-          paddingLeft: '32px',
-          transform: isMobileMenuOpen ? 'translateX(0)' : 'translateX(100%)',
-          transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+          gap: '24px',
+          transform: isMobileMenuOpen ? 'translateY(0) scale(1)' : 'translateY(-15px) scale(0.95)',
+          opacity: isMobileMenuOpen ? 1 : 0,
+          pointerEvents: isMobileMenuOpen ? 'auto' : 'none',
+          transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
         }}
       >
-        <button
-          onClick={() => setIsMobileMenuOpen(false)}
-          aria-label="Fermer le menu"
-          style={{
-            position: 'absolute',
-            top: '24px',
-            right: '24px',
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            color: '#0F0F0F',
-            padding: '8px',
-          }}
-        >
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
-        
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', marginTop: '24px' }}>
-          {navigationConfig.links.map((item) => (
-            <a
-              key={`mobile-${item.label}-${item.target}`}
-              href={item.target}
-              onClick={(e) => handleNavClick(e, item.target)}
-              style={{
-                fontFamily: '"Montserrat", system-ui, sans-serif',
-                fontSize: '20px',
-                fontWeight: 600,
-                color: '#0F0F0F',
-                letterSpacing: '1px',
-                textDecoration: 'none',
-                textTransform: 'uppercase',
-                transition: 'color 0.3s ease',
-              }}
-              onMouseEnter={(e) => {
-                (e.target as HTMLAnchorElement).style.color = '#D4AF37';
-              }}
-              onMouseLeave={(e) => {
-                (e.target as HTMLAnchorElement).style.color = '#0F0F0F';
-              }}
-            >
-              {item.label}
-            </a>
-          ))}
-        </div>
+        {navigationConfig.links.map((item) => (
+          <a
+            key={`mobile-${item.label}-${item.target}`}
+            href={item.target}
+            onClick={(e) => handleNavClick(e, item.target)}
+            style={{
+              fontFamily: '"Montserrat", system-ui, sans-serif',
+              fontSize: '16px',
+              fontWeight: 600,
+              color: baseTextColor,
+              letterSpacing: '1px',
+              textDecoration: 'none',
+              textTransform: 'uppercase',
+              transition: 'color 0.3s ease',
+              textAlign: 'right',
+            }}
+            onMouseEnter={(e) => {
+              (e.target as HTMLAnchorElement).style.color = hoverTextColor;
+            }}
+            onMouseLeave={(e) => {
+              (e.target as HTMLAnchorElement).style.color = baseTextColor;
+            }}
+          >
+            {item.label}
+          </a>
+        ))}
       </div>
     </>
   );
