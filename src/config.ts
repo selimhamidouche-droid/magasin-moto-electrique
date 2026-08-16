@@ -125,8 +125,8 @@ export const frenchConfig = {
   navigationConfig: {
     brandName: "MotoVite",
     links: [
-      { label: "Notre Approche", target: "#destinations" },
-      { label: "Comment ça marche", target: "#fleet" },
+      { label: "Notre Approche", target: "#approche" },
+      { label: "Comment ça marche", target: "#comment-ca-marche" },
       { label: "Nos Motos", target: "/catalogue" },
     ],
   },
@@ -140,7 +140,7 @@ export const frenchConfig = {
     subtitleLine2:
       "100% en ligne. Motos révisées et garanties. Livrées directement chez toi.",
     ctaText: "Voir le catalogue",
-    ctaTargetId: "#booking",
+    ctaTargetId: "/catalogue",
   },
   manifestoConfig: {
     sectionLabel: "Notre Philosophie",
