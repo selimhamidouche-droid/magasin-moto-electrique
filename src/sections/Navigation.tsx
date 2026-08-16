@@ -220,7 +220,7 @@ export default function Navigation({
       {/* Mobile Menu Dropdown (Floating Glass Pill) */}
       <div
         style={{
-          position: 'absolute',
+          position: 'fixed',
           top: '72px',
           right: '8px',
           padding: '20px 24px',
