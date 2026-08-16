@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import gsap from 'gsap';
 import { useNavigate } from 'react-router-dom';
 import { heroConfig as defaultHeroConfig } from '../config';
