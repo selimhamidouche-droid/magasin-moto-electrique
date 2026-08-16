@@ -200,25 +200,43 @@ export default function Navigation({
         </div>
       </nav>
 
-      {/* Mobile Menu Overlay */}
+      {/* Backdrop */}
       <div
+        onClick={() => setIsMobileMenuOpen(false)}
         style={{
           position: 'fixed',
           top: 0,
           left: 0,
-          width: '100vw',
-          height: '100vh',
-          backgroundColor: 'rgba(15, 15, 15, 0.95)',
-          backdropFilter: 'blur(10px)',
-          WebkitBackdropFilter: 'blur(10px)',
-          zIndex: 1000,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(0, 0, 0, 0.4)',
+          zIndex: 999,
           opacity: isMobileMenuOpen ? 1 : 0,
           pointerEvents: isMobileMenuOpen ? 'auto' : 'none',
           transition: 'opacity 0.4s ease',
+        }}
+      />
+
+      {/* Mobile Menu Sidebar */}
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          right: 0,
+          width: '80%',
+          maxWidth: '300px',
+          height: '100%',
+          backgroundColor: 'rgba(240, 236, 215, 0.65)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          borderLeft: '1px solid rgba(255, 255, 255, 0.3)',
+          zIndex: 1000,
+          display: 'flex',
+          flexDirection: 'column',
+          paddingTop: '80px',
+          paddingLeft: '32px',
+          transform: isMobileMenuOpen ? 'translateX(0)' : 'translateX(100%)',
+          transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
         }}
       >
         <button
@@ -231,17 +249,17 @@ export default function Navigation({
             background: 'none',
             border: 'none',
             cursor: 'pointer',
-            color: '#FDFBF7',
+            color: '#0F0F0F',
             padding: '8px',
           }}
         >
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
         </button>
         
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', textAlign: 'center' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', marginTop: '24px' }}>
           {navigationConfig.links.map((item) => (
             <a
               key={`mobile-${item.label}-${item.target}`}
@@ -249,10 +267,10 @@ export default function Navigation({
               onClick={(e) => handleNavClick(e, item.target)}
               style={{
                 fontFamily: '"Montserrat", system-ui, sans-serif',
-                fontSize: '24px',
+                fontSize: '20px',
                 fontWeight: 600,
-                color: '#FDFBF7',
-                letterSpacing: '2px',
+                color: '#0F0F0F',
+                letterSpacing: '1px',
                 textDecoration: 'none',
                 textTransform: 'uppercase',
                 transition: 'color 0.3s ease',
@@ -261,7 +279,7 @@ export default function Navigation({
                 (e.target as HTMLAnchorElement).style.color = '#D4AF37';
               }}
               onMouseLeave={(e) => {
-                (e.target as HTMLAnchorElement).style.color = '#FDFBF7';
+                (e.target as HTMLAnchorElement).style.color = '#0F0F0F';
               }}
             >
               {item.label}
