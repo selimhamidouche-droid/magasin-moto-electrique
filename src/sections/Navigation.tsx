@@ -113,10 +113,10 @@ export default function Navigation({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            backgroundColor: scrolled
+            backgroundColor: (scrolled || isMobileMenuOpen)
               ? isLightSection
-                ? 'rgba(240, 236, 215, 0.85)' // Match cream/beige `#f0ecd7`
-                : 'rgba(24, 12, 4, 0.85)'     // Match dark brown `#0F0F0F`
+                ? 'rgba(240, 236, 215, 0.95)' // Match cream/beige `#f0ecd7`
+                : 'rgba(24, 12, 4, 0.95)'     // Match dark brown `#0F0F0F`
               : 'rgba(255, 255, 255, 0.01)',
             transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
           }}
@@ -231,7 +231,7 @@ export default function Navigation({
               right: '-1px', // Align with the border of the nav
               width: '240px',
               height: isMobileMenuOpen ? `${navigationConfig.links.length * 56 + 32}px` : '0px',
-              backgroundColor: scrolled
+              backgroundColor: (scrolled || isMobileMenuOpen)
                 ? isLightSection
                   ? 'rgba(240, 236, 215, 0.95)'
                   : 'rgba(24, 12, 4, 0.95)'
@@ -260,7 +260,7 @@ export default function Navigation({
               right: 0,
               width: '240px',
               height: '2px',
-              backgroundColor: scrolled
+              backgroundColor: (scrolled || isMobileMenuOpen)
                 ? isLightSection
                   ? 'rgba(240, 236, 215, 0.95)'
                   : 'rgba(24, 12, 4, 0.95)'
