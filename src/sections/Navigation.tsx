@@ -176,102 +176,97 @@ export default function Navigation({
             ))}
           </div>
 
-          {/* Mobile Nav Toggle */}
-          <button
-            className="mobile-nav-toggle"
-            onClick={() => setIsMobileMenuOpen(true)}
-            aria-label="Ouvrir le menu"
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              color: baseTextColor,
-              padding: '8px',
+          {/* Mobile Nav Toggle & Morphing Menu */}
+          <div className="mobile-nav-toggle" style={{ position: 'relative', width: '28px', height: '24px', cursor: 'pointer' }} onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+            {/* Top Line */}
+            <div style={{
+              position: 'absolute',
+              top: isMobileMenuOpen ? '11px' : '0',
+              left: 0,
+              width: '100%',
+              height: '2px',
+              backgroundColor: baseTextColor,
+              transform: isMobileMenuOpen ? 'rotate(45deg)' : 'rotate(0)',
+              transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+              borderRadius: '2px',
+              zIndex: 1001,
+            }} />
+            
+            {/* Middle Line */}
+            <div style={{
+              position: 'absolute',
+              top: '11px',
+              left: 0,
+              width: '100%',
+              height: '2px',
+              backgroundColor: baseTextColor,
+              opacity: isMobileMenuOpen ? 0 : 1,
+              transform: isMobileMenuOpen ? 'translateX(10px)' : 'translateX(0)',
+              transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+              borderRadius: '2px',
+              zIndex: 1001,
+            }} />
+            
+            {/* Bottom Line (Morphs into the Menu) */}
+            <div style={{
+              position: 'absolute',
+              top: isMobileMenuOpen ? '32px' : '22px',
+              right: 0,
+              width: isMobileMenuOpen ? '220px' : '100%',
+              height: isMobileMenuOpen ? `${navigationConfig.links.length * 56 + 32}px` : '2px',
+              backgroundColor: isMobileMenuOpen 
+                ? (scrolled ? (isLightSection ? 'rgba(240, 236, 215, 0.95)' : 'rgba(24, 12, 4, 0.95)') : 'rgba(255, 255, 255, 0.1)') 
+                : baseTextColor,
+              backdropFilter: isMobileMenuOpen ? 'blur(20px)' : 'none',
+              WebkitBackdropFilter: isMobileMenuOpen ? 'blur(20px)' : 'none',
+              border: isMobileMenuOpen ? '1px solid rgba(255, 255, 255, 0.15)' : 'none',
+              borderRadius: isMobileMenuOpen ? '16px' : '2px',
+              transition: 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)',
+              zIndex: 1000,
+              boxShadow: isMobileMenuOpen ? '0 8px 32px rgba(0, 0, 0, 0.12)' : 'none',
               display: 'flex',
-              alignItems: 'center',
+              flexDirection: 'column',
+              padding: isMobileMenuOpen ? '20px 24px' : '0',
+              gap: '24px',
+              overflow: 'hidden',
+              cursor: 'default',
             }}
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="3" y1="12" x2="21" y2="12"></line>
-              <line x1="3" y1="6" x2="21" y2="6"></line>
-              <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
-          </button>
-        </div>
-      </nav>
-
-      {/* Backdrop */}
-      <div
-        onClick={() => setIsMobileMenuOpen(false)}
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          backgroundColor: 'rgba(0, 0, 0, 0.4)',
-          zIndex: 999,
-          opacity: isMobileMenuOpen ? 1 : 0,
-          pointerEvents: isMobileMenuOpen ? 'auto' : 'none',
-          transition: 'opacity 0.4s ease',
-        }}
-      />
-
-      {/* Mobile Menu Dropdown (Floating Glass Pill) */}
-      <div
-        style={{
-          position: 'fixed',
-          top: '72px',
-          right: '8px',
-          padding: '20px 24px',
-          borderRadius: '16px',
-          backgroundColor: scrolled
-            ? isLightSection
-              ? 'rgba(240, 236, 215, 0.95)'
-              : 'rgba(24, 12, 4, 0.95)'
-            : 'rgba(255, 255, 255, 0.1)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
-          border: '1px solid rgba(255, 255, 255, 0.15)',
-          zIndex: 1000,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '24px',
-          transformOrigin: 'top right',
-          transform: isMobileMenuOpen ? 'scale(1)' : 'scale(0.3)',
-          opacity: isMobileMenuOpen ? 1 : 0,
-          pointerEvents: isMobileMenuOpen ? 'auto' : 'none',
-          transition: 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)',
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
-        }}
-      >
-        {navigationConfig.links.map((item) => (
-          <a
-            key={`mobile-${item.label}-${item.target}`}
-            href={item.target}
-            onClick={(e) => handleNavClick(e, item.target)}
-            style={{
-              fontFamily: '"Montserrat", system-ui, sans-serif',
-              fontSize: '16px',
-              fontWeight: 600,
-              color: baseTextColor,
-              letterSpacing: '1px',
-              textDecoration: 'none',
-              textTransform: 'uppercase',
-              transition: 'color 0.3s ease',
-              textAlign: 'right',
-            }}
-            onMouseEnter={(e) => {
-              (e.target as HTMLAnchorElement).style.color = hoverTextColor;
-            }}
-            onMouseLeave={(e) => {
-              (e.target as HTMLAnchorElement).style.color = baseTextColor;
-            }}
-          >
-            {item.label}
-          </a>
-        ))}
-      </div>
+            onClick={(e) => isMobileMenuOpen && e.stopPropagation()}
+            >
+              {navigationConfig.links.map((item, i) => (
+                <a
+                  key={`mobile-${item.label}-${item.target}`}
+                  href={item.target}
+                  onClick={(e) => {
+                    if (!isMobileMenuOpen) return e.preventDefault();
+                    handleNavClick(e, item.target);
+                  }}
+                  style={{
+                    fontFamily: '"Montserrat", system-ui, sans-serif',
+                    fontSize: '16px',
+                    fontWeight: 600,
+                    color: baseTextColor,
+                    letterSpacing: '1px',
+                    textDecoration: 'none',
+                    textTransform: 'uppercase',
+                    textAlign: 'right',
+                    opacity: isMobileMenuOpen ? 1 : 0,
+                    transform: isMobileMenuOpen ? 'translateY(0)' : 'translateY(-10px)',
+                    transition: `all 0.4s cubic-bezier(0.16, 1, 0.3, 1) ${isMobileMenuOpen ? 0.2 + (i * 0.05) : 0}s`,
+                    pointerEvents: isMobileMenuOpen ? 'auto' : 'none',
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.target as HTMLAnchorElement).style.color = hoverTextColor;
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.target as HTMLAnchorElement).style.color = baseTextColor;
+                  }}
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
+          </div>
     </>
   );
 }
