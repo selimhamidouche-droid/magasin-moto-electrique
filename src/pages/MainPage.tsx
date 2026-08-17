@@ -2,7 +2,8 @@ import { useLenis } from '../hooks/useLenis';
 import { usePageSEO } from '../hooks/usePageSEO';
 import Navigation from '../sections/Navigation.tsx';
 import Footer from '../sections/Footer.tsx';
-import { frenchConfig, frenchMainPageConfig } from '../config.ts';
+import { frenchConfig, frenchMainPageConfig, staticProducts } from '../config.ts';
+import { Link } from 'react-router-dom';
 
 export default function MainPage() {
   useLenis();
@@ -107,8 +108,8 @@ export default function MainPage() {
 
               {/* Action */}
               <div style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'flex-start' }}>
-                <a
-                  href="#destinations"
+                <Link
+                  to="/catalogue"
                   className="btn-premium"
                   style={{
                     display: 'inline-flex',
@@ -127,9 +128,9 @@ export default function MainPage() {
                     textDecoration: 'none',
                   }}
                 >
-                  Configurer ma moto
+                  Voir le Catalogue
                   <span style={{ fontSize: '20px' }}>→</span>
-                </a>
+                </Link>
 
                 {/* Reassurance Checkmarks */}
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '24px', color: '#888', fontSize: '13px', fontWeight: 500 }}>
@@ -226,9 +227,9 @@ export default function MainPage() {
                 gap: '60px 48px',
               }}
             >
-              {frenchMainPageConfig.destinations.map((dest) => (
+              {staticProducts.slice(0, 3).map((product) => (
                 <article
-                  key={dest.title}
+                  key={product.id}
                   style={{
                     display: 'flex',
                     flexDirection: 'column',
@@ -245,19 +246,17 @@ export default function MainPage() {
                     (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
                   }}
                 >
-                  {/* Transparent Floating Image */}
-                  <div style={{ width: '100%', marginBottom: '24px', textAlign: 'center' }}>
+                  {/* Image */}
+                  <div style={{ width: '100%', marginBottom: '24px', borderRadius: '16px', overflow: 'hidden', aspectRatio: '16/9' }}>
                     <img
-                      src={dest.image}
-                      alt={dest.title}
+                      src={product.image_url}
+                      alt={product.nom}
                       loading="lazy"
                       style={{
                         width: '100%',
-                        maxHeight: '380px',
-                        objectFit: 'contain',
+                        height: '100%',
+                        objectFit: 'cover',
                         display: 'block',
-                        margin: '0 auto',
-                        filter: 'drop-shadow(0 15px 25px rgba(0, 0, 0, 0.6))',
                         transition: 'transform 0.5s ease',
                       }}
                       onMouseEnter={(e) => {
@@ -282,7 +281,7 @@ export default function MainPage() {
                         marginBottom: '8px',
                       }}
                     >
-                      {dest.route}
+                      {product.marque.toUpperCase()} — {product.categorie}
                     </p>
                     <h3
                       style={{
@@ -293,7 +292,7 @@ export default function MainPage() {
                         marginBottom: '12px',
                       }}
                     >
-                      {dest.title}
+                      {product.nom}
                     </h3>
                     <p
                       style={{
@@ -305,7 +304,7 @@ export default function MainPage() {
                         flex: '1 1 auto',
                       }}
                     >
-                      {dest.description}
+                      {product.description}
                     </p>
 
                     <div
@@ -320,16 +319,16 @@ export default function MainPage() {
                     >
                       <div>
                         <span style={{ fontSize: '10px', fontWeight: 600, color: '#D4AF37', display: 'block', textTransform: 'uppercase', letterSpacing: '1px' }}>Disponibilité</span>
-                        <span style={{ fontSize: '13px', fontWeight: 600, color: '#FDFBF7' }}>{dest.duration}</span>
+                        <span style={{ fontSize: '13px', fontWeight: 600, color: '#FDFBF7' }}>{product.en_stock ? 'En stock' : 'Sur commande'}</span>
                       </div>
                       <div style={{ textAlign: 'right' }}>
                         <span style={{ fontSize: '10px', fontWeight: 600, color: '#D4AF37', display: 'block', textTransform: 'uppercase', letterSpacing: '1px' }}>Tarif</span>
-                        <span style={{ fontSize: '15px', fontWeight: 700, color: '#FDFBF7' }}>{dest.price}</span>
+                        <span style={{ fontSize: '15px', fontWeight: 700, color: '#FDFBF7' }}>{product.prix.toLocaleString('fr-FR')} €</span>
                       </div>
                     </div>
 
-                    <a
-                      href={`/motos/${dest.id}`}
+                    <Link
+                      to={`/motos/${product.slug}`}
                       style={{
                         display: 'inline-flex',
                         alignItems: 'center',
@@ -360,10 +359,29 @@ export default function MainPage() {
                       }}
                     >
                       Découvrir le modèle →
-                    </a>
+                    </Link>
                   </div>
                 </article>
               ))}
+            </div>
+
+            {/* Voir tout le catalogue */}
+            <div style={{ textAlign: 'center', marginTop: '64px' }}>
+              <Link
+                to="/catalogue"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '12px',
+                  fontFamily: '"Montserrat", system-ui, sans-serif',
+                  fontSize: '13px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase',
+                  color: '#D4AF37', textDecoration: 'none',
+                  padding: '16px 36px', borderRadius: '12px',
+                  border: '1px solid rgba(212,175,55,0.3)',
+                  background: 'rgba(212,175,55,0.05)',
+                  transition: 'background 0.3s ease',
+                }}
+              >
+                Voir tout le catalogue →
+              </Link>
             </div>
           </div>
         </section>
