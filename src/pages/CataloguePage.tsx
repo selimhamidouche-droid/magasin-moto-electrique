@@ -21,6 +21,10 @@ export default function CataloguePage() {
 
   useEffect(() => {
     async function fetchMotos() {
+      if (!supabase) {
+        setLoading(false);
+        return;
+      }
       try {
         const { data, error } = await supabase
           .from('motos')
