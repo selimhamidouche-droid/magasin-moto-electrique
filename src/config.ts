@@ -79,6 +79,39 @@ export interface FooterConfig {
   copyright: string
 }
 
+// ─── Cocon Sémantique — Marques & Catégories ───
+export type VehicleType = 'moto' | 'scooter'
+
+export interface BrandConfig {
+  slug: string
+  name: string
+  tagline: string
+  description: string
+  logo?: string
+  heroImage: string
+  country: string
+  founded: string
+  vehicleTypes: VehicleType[]
+}
+
+export interface ProductConfig {
+  id: string
+  slug: string
+  nom: string
+  marque: string // slug de la marque
+  type_vehicule: VehicleType
+  categorie: string
+  prix: number
+  vitesse_max: number
+  autonomie: number
+  puissance_kw: number
+  permis_requis: string
+  image_url: string
+  description: string
+  en_stock: boolean
+  specs?: Record<string, string>
+}
+
 // ─── Types pour la Nouvelle MainPage ───
 export interface DestinationItem {
   id: string
@@ -128,7 +161,9 @@ export const frenchConfig = {
     links: [
       { label: "Notre Approche", target: "#approche" },
       { label: "Comment ça marche", target: "#comment-ca-marche" },
-      { label: "Nos Motos", target: "/catalogue" },
+      { label: "Motos", target: "/catalogue/motos" },
+      { label: "Scooters", target: "/catalogue/scooters" },
+      { label: "Catalogue", target: "/catalogue" },
     ],
   },
   heroConfig: {
@@ -236,33 +271,31 @@ export const frenchConfig = {
     ageGateText: "Toutes nos ventes sont soumises à nos conditions générales de vente.",
     brandName: "MotoVite",
     brandTaglineLines: [
-      "Concessionnaire moto 100% en ligne.",
+      "Concessionnaire moto & scooter électrique 100% en ligne.",
       "Qualité certifiée. Livraison sous 72h.",
     ],
     columns: [
       {
         heading: "Catégories",
         links: [
-          { label: "Roadsters", href: "/catalogue" },
-          { label: "Sportives", href: "/catalogue" },
-          { label: "Trails & Customs", href: "/catalogue" },
+          { label: "Motos Électriques", href: "/catalogue/motos" },
+          { label: "Scooters Électriques", href: "/catalogue/scooters" },
+          { label: "Tout le Catalogue", href: "/catalogue" },
+        ],
+      },
+      {
+        heading: "Nos Marques",
+        links: [
+          { label: "Surron", href: "/marques/surron" },
+          { label: "Niu", href: "/marques/niu" },
         ],
       },
       {
         heading: "Nos Services",
         links: [
-          { label: "Estimation de Reprise", href: "#" },
           { label: "Solutions de Financement", href: "#" },
           { label: "Entretien & SAV", href: "#" },
-          { label: "Équipements", href: "#" },
-        ],
-      },
-      {
-        heading: "Héritage & Valeurs",
-        links: [
-          { label: "L'Inspection 100 Points", href: "#manifesto" },
-          { label: "Comment ça marche", href: "#anatomy" },
-          { label: "Nos Garanties", href: "/catalogue" },
+          { label: "Comment ça marche", href: "#comment-ca-marche" },
         ],
       },
       {
@@ -354,3 +387,116 @@ export const manifestoConfig = frenchConfig.manifestoConfig;
 export const anatomyConfig = frenchConfig.anatomyConfig;
 export const tiersConfig = frenchConfig.tiersConfig;
 export const footerConfig = frenchConfig.footerConfig;
+
+// ─── Données Marques ───
+export const brandsConfig: BrandConfig[] = [
+  {
+    slug: 'surron',
+    name: 'Surron',
+    tagline: 'La Référence du Trial Électrique',
+    description: 'Fondée en 2014 en Chine, Surron est la marque leader mondial des motos électriques légères et du trial électrique. Leurs machines combinent légèreté extrême, performances pures et fiabilité pour une expérience hors du commun sur et hors des sentiers battus.',
+    heroImage: './images/surron-ultra-bee.png',
+    country: 'Chine',
+    founded: '2014',
+    vehicleTypes: ['moto'],
+  },
+  {
+    slug: 'niu',
+    name: 'Niu',
+    tagline: 'Le Scooter Urbain Réinventé',
+    description: 'Niu Technologies (NYSE: NIU) est le leader mondial du scooter électrique connecté. Fondée à Pékin en 2014, la marque a révolutionné la mobilité urbaine avec des scooters intelligents, connectés via application mobile et dotés d\'une autonomie record.',
+    heroImage: './images/surron-light-bee-noir.png',
+    country: 'Chine',
+    founded: '2014',
+    vehicleTypes: ['scooter'],
+  },
+];
+
+// ─── Produits fictifs (remplacés par Supabase en production) ───
+export const staticProducts: ProductConfig[] = [
+  {
+    id: 'surron-light-bee-x',
+    slug: 'surron-light-bee-x',
+    nom: 'Surron Light Bee X',
+    marque: 'surron',
+    type_vehicule: 'moto',
+    categorie: 'Trial & Enduro',
+    prix: 3490,
+    vitesse_max: 75,
+    autonomie: 100,
+    puissance_kw: 6,
+    permis_requis: 'AM / A1',
+    image_url: './images/surron-light-bee-noir.png',
+    description: 'La Light Bee X est la référence absolue du trial électrique. Ultra-légère (47 kg), maniable et puissante, elle est homologuée route et taillée pour les single-tracks.',
+    en_stock: true,
+    specs: { Poids: '47 kg', Batterie: '3 024 Wh', Charge: '4h', Freins: 'Disques hydrauliques' },
+  },
+  {
+    id: 'surron-ultra-bee',
+    slug: 'surron-ultra-bee',
+    nom: 'Surron Ultra Bee',
+    marque: 'surron',
+    type_vehicule: 'moto',
+    categorie: 'Cross & Enduro',
+    prix: 5990,
+    vitesse_max: 100,
+    autonomie: 130,
+    puissance_kw: 12.5,
+    permis_requis: 'A1 / A',
+    image_url: './images/surron-ultra-bee.png',
+    description: 'L\'Ultra Bee pousse les limites du possible. Puissance moteur portée à 12.5 kW, cadre renforcé, fourche à grand débattement. La bête des hors-pistes électriques.',
+    en_stock: true,
+    specs: { Poids: '80 kg', Batterie: '4 680 Wh', Charge: '5h', Freins: 'Disques hydrauliques 4 pistons' },
+  },
+  {
+    id: 'surron-storm-bee',
+    slug: 'surron-storm-bee',
+    nom: 'Surron Storm Bee',
+    marque: 'surron',
+    type_vehicule: 'moto',
+    categorie: 'Enduro Haute Performance',
+    prix: 11990,
+    vitesse_max: 130,
+    autonomie: 150,
+    puissance_kw: 22.5,
+    permis_requis: 'A',
+    image_url: './images/surron-light-bee-vert.png',
+    description: 'La Storm Bee est un monstre de puissance. 22.5 kW, 0 à 100 km/h en moins de 4 secondes. Pour les riders les plus exigeants qui veulent dominer n\'importe quel terrain.',
+    en_stock: false,
+    specs: { Poids: '118 kg', Batterie: '6 480 Wh', Charge: '6h', Freins: 'Brembo hydrauliques' },
+  },
+  {
+    id: 'niu-nqi-gt-pro',
+    slug: 'niu-nqi-gt-pro',
+    nom: 'Niu NQi GT Pro',
+    marque: 'niu',
+    type_vehicule: 'scooter',
+    categorie: 'Scooter Urbain Premium',
+    prix: 2990,
+    vitesse_max: 70,
+    autonomie: 120,
+    puissance_kw: 3,
+    permis_requis: 'AM / A1',
+    image_url: './images/surron-light-bee-bleu.png',
+    description: 'Le NQi GT Pro est le scooter connecté par excellence. Application mobile intégrée, géolocalisation GPS, double batterie amovible et design haut de gamme pour la ville.',
+    en_stock: true,
+    specs: { Poids: '98 kg', Batterie: '2× 35 Ah', Charge: '6h', Connectivité: 'Bluetooth & 4G' },
+  },
+  {
+    id: 'niu-uqi-gt-pro',
+    slug: 'niu-uqi-gt-pro',
+    nom: 'Niu UQi GT Pro',
+    marque: 'niu',
+    type_vehicule: 'scooter',
+    categorie: 'Scooter Urbain Compact',
+    prix: 1990,
+    vitesse_max: 45,
+    autonomie: 80,
+    puissance_kw: 1.5,
+    permis_requis: 'AM (BSR)',
+    image_url: './images/surron-light-bee-violet.png',
+    description: 'Léger, compact et connecté. L\'UQi GT Pro est le compagnon idéal des city-riders. Accessible dès le BSR, batterie amovible et design moderne.',
+    en_stock: true,
+    specs: { Poids: '68 kg', Batterie: '1× 35 Ah amovible', Charge: '4h', Connectivité: 'Bluetooth' },
+  },
+];
