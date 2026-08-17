@@ -72,7 +72,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         <div style={{ padding: '20px 24px 24px' }}>
           <div style={{ marginBottom: '4px' }}>
             <span style={{ fontSize: '11px', fontWeight: 600, color: '#c5a059', letterSpacing: '2px', textTransform: 'uppercase' }}>
-              {product.marque.toUpperCase()} — {product.categorie}
+              {(product.marque || '').toUpperCase()} — {product.categorie}
             </span>
           </div>
           <h3 style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: '20px', fontWeight: 800, color: '#fff', marginBottom: '8px' }}>
