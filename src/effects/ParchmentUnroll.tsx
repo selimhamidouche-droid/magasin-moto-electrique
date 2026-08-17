@@ -227,10 +227,11 @@ export default function ParchmentUnroll() {
     // Wait for window load to ensure images are ready
     if (document.readyState === 'complete') {
       const cleanup = init();
+      const currentObservers = observersRef.current;
       return () => {
         cleanup?.();
         cancelAnimationFrame(rafRef.current);
-        observersRef.current.forEach((o) => o.disconnect());
+        currentObservers.forEach((o) => o.disconnect());
         meshDataRef.current.forEach((d) => {
           if (d.tween) d.tween.kill();
           d.mesh.geometry.dispose();
@@ -250,11 +251,12 @@ export default function ParchmentUnroll() {
         resizeCleanup = init();
       };
       window.addEventListener('load', onLoad);
+      const currentObservers = observersRef.current;
       return () => {
         window.removeEventListener('load', onLoad);
         resizeCleanup?.();
         cancelAnimationFrame(rafRef.current);
-        observersRef.current.forEach((o) => o.disconnect());
+        currentObservers.forEach((o) => o.disconnect());
         meshDataRef.current.forEach((d) => {
           if (d.tween) d.tween.kill();
           d.mesh.geometry.dispose();

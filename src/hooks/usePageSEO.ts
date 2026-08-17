@@ -34,19 +34,19 @@ export function usePageSEO({ title, description, lang, canonicalUrl }: SEOProps)
     canonical.href = canonicalUrl;
 
     // Open Graph Title
-    let ogTitle = document.querySelector<HTMLMetaElement>('meta[property="og:title"]');
+    const ogTitle = document.querySelector<HTMLMetaElement>('meta[property="og:title"]');
     if (ogTitle) ogTitle.content = title;
 
     // Open Graph Description
-    let ogDesc = document.querySelector<HTMLMetaElement>('meta[property="og:description"]');
+    const ogDesc = document.querySelector<HTMLMetaElement>('meta[property="og:description"]');
     if (ogDesc) ogDesc.content = description;
 
     // Open Graph URL
-    let ogUrl = document.querySelector<HTMLMetaElement>('meta[property="og:url"]');
+    const ogUrl = document.querySelector<HTMLMetaElement>('meta[property="og:url"]');
     if (ogUrl) ogUrl.content = canonicalUrl;
 
     // Open Graph Locale
-    let ogLocale = document.querySelector<HTMLMetaElement>('meta[property="og:locale"]');
+    const ogLocale = document.querySelector<HTMLMetaElement>('meta[property="og:locale"]');
     if (ogLocale) ogLocale.content = lang === 'fr' ? 'fr_FR' : 'en_GB';
 
   }, [title, description, lang, canonicalUrl]);

@@ -57,7 +57,7 @@ export default function Navigation({
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
     };
-  }, []);
+  }, [dark]);
 
   const baseTextColor = isLightSection ? '#0F0F0F' : '#FDFBF7';
   const hoverTextColor = isLightSection ? '#696969' : '#D4AF37';
