@@ -4,6 +4,7 @@ import Navigation from '../sections/Navigation.tsx';
 import Footer from '../sections/Footer.tsx';
 import { frenchConfig, frenchMainPageConfig, staticProducts } from '../config.ts';
 import { Link } from 'react-router-dom';
+import InspectionBanner from '../components/InspectionBanner';
 
 export default function MainPage() {
   useLenis();
@@ -93,13 +94,13 @@ export default function MainPage() {
                 Livrée directement chez toi.
               </h2>
 
-              <p style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: 'clamp(14px, 3vw, 18px)', color: '#a0a0a0', lineHeight: 1.6, maxWidth: '520px', marginTop: '16px' }}>
+              <p className="hidden md:block" style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: 'clamp(14px, 3vw, 18px)', color: '#a0a0a0', lineHeight: 1.6, maxWidth: '520px', marginTop: '16px' }}>
                 <span style={{ color: 'var(--mv-off-white)', fontWeight: 500 }}>Choisis. Commande. Nous livrons. Sans concession.</span><br />
                 Choisissez votre moto en ligne. Nous nous occupons de l'inspection, des démarches et de la livraison.
               </p>
 
               {/* Confiance Badge */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '8px', flexWrap: 'wrap' }}>
+              <div className="hidden md:flex" style={{ alignItems: 'center', gap: '16px', marginTop: '8px', flexWrap: 'wrap' }}>
                 <div style={{ color: 'var(--mv-gold)', fontSize: '18px', letterSpacing: '3px' }}>★★★★★</div>
                 <div style={{ width: '1px', height: '24px', backgroundColor: 'rgba(255,255,255,0.1)' }} />
                 <span style={{ color: 'var(--mv-off-white)', fontSize: '14px', fontWeight: 600 }}>4.9/5</span>
@@ -110,30 +111,14 @@ export default function MainPage() {
               <div style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'flex-start' }}>
                 <Link
                   to="/catalogue"
-                  className="btn-premium"
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '16px',
-                    backgroundColor: 'var(--mv-off-white)',
-                    color: 'var(--mv-deep-black)',
-                    fontFamily: '"Montserrat", system-ui, sans-serif',
-                    fontSize: 'clamp(13px, 2.5vw, 15px)',
-                    fontWeight: 700,
-                    letterSpacing: '1px',
-                    textTransform: 'uppercase',
-                    padding: 'clamp(16px, 3vw, 24px) clamp(24px, 5vw, 56px)',
-                    borderRadius: '12px',
-                    textDecoration: 'none',
-                  }}
+                  className="btn-base btn-primary"
                 >
                   Voir le Catalogue
-                  <span style={{ fontSize: '20px' }}>→</span>
+                  <span style={{ fontSize: '20px', marginLeft: '12px' }}>→</span>
                 </Link>
 
                 {/* Reassurance Checkmarks */}
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '24px', color: '#888', fontSize: '13px', fontWeight: 500 }}>
+                <div className="hidden md:flex" style={{ flexWrap: 'wrap', gap: '24px', color: '#888', fontSize: '13px', fontWeight: 500 }}>
                   <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{ color: 'var(--mv-gold)' }}>✓</span> Livraison à domicile</span>
                   <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{ color: 'var(--mv-gold)' }}>✓</span> Paiement sécurisé</span>
                   <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{ color: 'var(--mv-gold)' }}>✓</span> Garantie incluse</span>
@@ -143,15 +128,19 @@ export default function MainPage() {
             </div>
 
             {/* Bottom Stats Cards (Glass) */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '24px', marginTop: '0px', width: '100%', maxWidth: '1000px' }}>
+            <div className="hidden md:grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mt-4 md:mt-0 w-full max-w-[1000px]">
               {[
                 { label: "Clients satisfaits", value: "98%" },
                 { label: "Livraison moyenne", value: "72h" },
                 { label: "Paiement sécurisé", value: "100%" }
               ].map((stat, idx) => (
-                <div key={idx} className="liquid-glass" style={{ padding: '24px 32px', borderRadius: '12px', display: 'flex', flexDirection: 'column', gap: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                  <span style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: '48px', fontWeight: 800, color: 'var(--mv-off-white)', lineHeight: 1 }}>{stat.value}</span>
-                  <span style={{ fontSize: '12px', color: '#a0a0a0', fontWeight: 600, letterSpacing: '2px', textTransform: 'uppercase' }}>{stat.label}</span>
+                <div key={idx} className="liquid-glass p-5 md:p-6 lg:p-8 rounded-xl flex flex-col gap-2 md:gap-3 border border-white/5">
+                  <span style={{ fontFamily: '"Montserrat", system-ui, sans-serif' }} className="text-4xl md:text-5xl font-extrabold text-white leading-none">
+                    {stat.value}
+                  </span>
+                  <span className="text-[10px] md:text-xs text-[#a0a0a0] font-semibold tracking-widest uppercase">
+                    {stat.label}
+                  </span>
                 </div>
               ))}
             </div>
@@ -228,7 +217,8 @@ export default function MainPage() {
               }}
             >
               {staticProducts.slice(0, 3).map((product) => (
-                <article
+                <Link
+                  to={`/motos/${product.slug}`}
                   key={product.id}
                   style={{
                     display: 'flex',
@@ -238,6 +228,7 @@ export default function MainPage() {
                     border: 'none',
                     padding: '0',
                     transition: 'transform 0.4s ease',
+                    textDecoration: 'none',
                   }}
                   onMouseEnter={(e) => {
                     (e.currentTarget as HTMLElement).style.transform = 'translateY(-6px)';
@@ -281,7 +272,7 @@ export default function MainPage() {
                         marginBottom: '8px',
                       }}
                     >
-                      {product.marque.toUpperCase()} — {product.categorie}
+                      {product.nom}
                     </p>
                     <h3
                       style={{
@@ -290,9 +281,11 @@ export default function MainPage() {
                         fontWeight: 700,
                         color: '#FDFBF7',
                         marginBottom: '12px',
+                        lineHeight: 1.1,
+                        textTransform: 'uppercase',
                       }}
                     >
-                      {product.nom}
+                      {product.categorie}
                     </h3>
                     <p
                       style={{
@@ -326,42 +319,8 @@ export default function MainPage() {
                         <span style={{ fontSize: '15px', fontWeight: 700, color: '#FDFBF7' }}>{product.prix.toLocaleString('fr-FR')} €</span>
                       </div>
                     </div>
-
-                    <Link
-                      to={`/motos/${product.slug}`}
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: '8px',
-                        padding: '14px 24px',
-                        backgroundColor: 'transparent',
-                        border: '1px solid rgba(252, 250, 238, 0.3)',
-                        color: '#FDFBF7',
-                        textTransform: 'uppercase',
-                        fontFamily: '"Montserrat", system-ui, sans-serif',
-                        fontSize: '11px',
-                        fontWeight: 700,
-                        letterSpacing: '2px',
-                        textDecoration: 'none',
-                        borderRadius: '12px',
-                        transition: 'all 0.3s ease',
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = '#FDFBF7';
-                        e.currentTarget.style.color = '#0F0F0F';
-                        e.currentTarget.style.borderColor = '#FDFBF7';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = 'transparent';
-                        e.currentTarget.style.color = '#FDFBF7';
-                        e.currentTarget.style.borderColor = 'rgba(252, 250, 238, 0.3)';
-                      }}
-                    >
-                      Découvrir le modèle →
-                    </Link>
                   </div>
-                </article>
+                </Link>
               ))}
             </div>
 
@@ -369,16 +328,7 @@ export default function MainPage() {
             <div style={{ textAlign: 'center', marginTop: '64px' }}>
               <Link
                 to="/catalogue"
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '12px',
-                  fontFamily: '"Montserrat", system-ui, sans-serif',
-                  fontSize: '13px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase',
-                  color: '#D4AF37', textDecoration: 'none',
-                  padding: '16px 36px', borderRadius: '12px',
-                  border: '1px solid rgba(212,175,55,0.3)',
-                  background: 'rgba(212,175,55,0.05)',
-                  transition: 'background 0.3s ease',
-                }}
+                className="btn-base btn-primary"
               >
                 Voir tout le catalogue →
               </Link>
@@ -444,72 +394,14 @@ export default function MainPage() {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '80px' }}>
               {frenchMainPageConfig.fleet.map((car, index) => (
-                <div
+                <InspectionBanner
                   key={car.title}
-                  className="mobile-col"
-                  style={{
-                    display: 'flex',
-                    flexDirection: index % 2 === 0 ? 'row' : 'row-reverse',
-                    gap: '40px',
-                    alignItems: 'center',
-                    flexWrap: 'wrap',
-                  }}
-                >
-                  {/* Image */}
-                  <div
-                    style={{
-                      flex: '1 1 450px',
-                      borderRadius: '12px',
-                      overflow: 'hidden',
-                      boxShadow: '0px 8px 15px rgba(168, 142, 113, 0.15)',
-                    }}
-                  >
-                    <img
-                      src={car.image}
-                      alt={car.title}
-                      loading="lazy"
-                      style={{ width: '100%', height: 'auto', display: 'block', aspectRatio: '4/3', objectFit: 'cover' }}
-                    />
-                  </div>
-
-                  {/* Text */}
-                  <div style={{ flex: '1 1 400px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                    <span
-                      style={{
-                        fontFamily: '"Montserrat", system-ui, sans-serif',
-                        fontSize: '11px',
-                        fontWeight: 600,
-                        color: '#D4AF37',
-                        textTransform: 'uppercase',
-                        letterSpacing: '1.5px',
-                        display: 'inline-block',
-                      }}
-                    >
-                      {car.feature}
-                    </span>
-                    <h3
-                      style={{
-                        fontFamily: '"Montserrat", system-ui, sans-serif',
-                        fontSize: '32px',
-                        fontWeight: 800,
-                        color: '#ffffff',
-                      }}
-                    >
-                      {car.title}
-                    </h3>
-                    <p
-                      style={{
-                        fontFamily: '"Montserrat", system-ui, sans-serif',
-                        fontSize: '16px',
-                        fontWeight: 500,
-                        lineHeight: 1.7,
-                        color: '#d0d0d0',
-                      }}
-                    >
-                      {car.description}
-                    </p>
-                  </div>
-                </div>
+                  feature={car.feature}
+                  title={car.title}
+                  description={car.description}
+                  image={car.image}
+                  reverse={index % 2 !== 0}
+                />
               ))}
             </div>
           </div>
@@ -531,13 +423,22 @@ export default function MainPage() {
             justifyContent: 'center',
           }}
         >
+          <video 
+            autoPlay 
+            loop 
+            muted 
+            playsInline
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: -1, opacity: 0.5 }}
+          >
+            <source src="/videos/roadster.mp4" type="video/mp4" />
+          </video>
           {/* Subtle decoration */}
           <div
             style={{
               position: 'absolute',
               inset: 0,
-              opacity: 0.05,
-              backgroundImage: 'radial-gradient(circle at 50% 50%, #D4AF37 0%, transparent 60%)',
+              backgroundColor: 'rgba(0,0,0,0.5)',
+              zIndex: -1,
             }}
             aria-hidden="true"
           />
@@ -584,30 +485,7 @@ export default function MainPage() {
 
             <a
               href="/catalogue"
-              style={{
-                display: 'inline-block',
-                fontFamily: '"Montserrat", system-ui, sans-serif',
-                fontSize: '11px',
-                fontWeight: 600,
-                color: '#0F0F0F',
-                backgroundColor: '#FDFBF7',
-                border: 'none',
-                borderRadius: '12px',
-                padding: '16px 36px',
-                letterSpacing: '1.5px',
-                textTransform: 'uppercase',
-                textDecoration: 'none',
-                transition: 'all 0.4s ease',
-                boxShadow: '0 4px 15px rgba(0,0,0,0.2)',
-              }}
-              onMouseEnter={(e) => {
-                (e.target as HTMLAnchorElement).style.backgroundColor = '#D4AF37';
-                (e.target as HTMLAnchorElement).style.color = '#FDFBF7';
-              }}
-              onMouseLeave={(e) => {
-                (e.target as HTMLAnchorElement).style.backgroundColor = '#FDFBF7';
-                (e.target as HTMLAnchorElement).style.color = '#0F0F0F';
-              }}
+              className="btn-base btn-primary"
             >
               {frenchMainPageConfig.ctaButton}
             </a>

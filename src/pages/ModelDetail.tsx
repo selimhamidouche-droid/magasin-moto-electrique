@@ -130,28 +130,17 @@ export default function ModelDetail() {
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                 <button
                   id="btn-commander"
-                  style={{
-                    flex: 1, minWidth: '160px',
-                    fontFamily: '"Montserrat", system-ui, sans-serif',
-                    fontSize: '12px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase',
-                    padding: '16px 24px', borderRadius: '12px',
-                    background: accentColor, color: '#000', border: 'none', cursor: 'pointer',
-                  }}
+                  className="btn-base btn-primary"
+                  style={{ flex: 1, minWidth: '160px' }}
                 >
                   Commander
                 </button>
                 <button
                   id="btn-essai"
-                  style={{
-                    flex: 1, minWidth: '160px',
-                    fontFamily: '"Montserrat", system-ui, sans-serif',
-                    fontSize: '12px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase',
-                    padding: '16px 24px', borderRadius: '12px',
-                    background: 'transparent', color: '#fff',
-                    border: `1px solid rgba(255,255,255,0.2)`, cursor: 'pointer',
-                  }}
+                  className="btn-base btn-primary"
+                  style={{ flex: 1, minWidth: '160px' }}
                 >
-                  Réserver un essai
+                  Demander un essai
                 </button>
               </div>
 

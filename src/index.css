@@ -114,29 +114,55 @@
     pointer-events: none;
   }
 
-  /* Premium Buttons */
-  .btn-premium {
-    position: relative;
-    overflow: hidden;
-    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+  .liquid-glass.active {
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), 0 0 0 1px var(--mv-gold), 0 8px 32px rgba(197, 160, 89, 0.2);
+    color: var(--mv-gold);
   }
-  .btn-premium::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.15), transparent);
-    transform: translateX(-100%);
-    transition: transform 0.6s ease;
+
+  /* Button System */
+  .btn-base {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 28px;
+    font-family: 'Montserrat', system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    border-radius: 12px;
   }
-  .btn-premium:hover::after {
-    transform: translateX(100%);
+
+  .btn-primary {
+    background-color: var(--mv-off-white);
+    color: var(--mv-deep-black);
+    border: none;
   }
-  .btn-premium:active {
-    transform: scale(0.97);
+  .btn-primary:hover {
+    background-color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
   }
   
+  .btn-sm {
+    padding: 8px 16px;
+    font-size: 11px;
+    letter-spacing: 1px;
+    border-radius: 8px;
+  }
+
+  /* Pour les filtres inactifs afin de ne pas saturer l'écran */
+  .filter-btn:not(.active) {
+    opacity: 0.4;
+  }
+  .filter-btn:not(.active):hover {
+    opacity: 0.8;
+  }
+
+
   /* Navbar Animated Link */
   .nav-link-animated {
     position: relative;

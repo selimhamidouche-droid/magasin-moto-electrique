@@ -72,11 +72,11 @@ export default function ProductCard({ product }: ProductCardProps) {
         <div style={{ padding: '20px 24px 24px' }}>
           <div style={{ marginBottom: '4px' }}>
             <span style={{ fontSize: '11px', fontWeight: 600, color: '#c5a059', letterSpacing: '2px', textTransform: 'uppercase' }}>
-              {(product.marque || '').toUpperCase()} — {product.categorie}
+              {product.nom}
             </span>
           </div>
-          <h3 style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: '20px', fontWeight: 800, color: '#fff', marginBottom: '8px' }}>
-            {product.nom}
+          <h3 style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: '20px', fontWeight: 800, color: '#fff', marginBottom: '8px', textTransform: 'uppercase' }}>
+            {product.categorie}
           </h3>
           <p style={{ color: '#888', fontSize: '13px', lineHeight: 1.6, marginBottom: '16px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
             {product.description}
@@ -100,12 +100,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             <span style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: '22px', fontWeight: 800, color: '#c5a059' }}>
               {product.prix.toLocaleString('fr-FR')} €
             </span>
-            <span style={{
-              fontSize: '12px', fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase',
-              padding: '8px 16px', borderRadius: '8px',
-              border: '1px solid rgba(197,160,89,0.5)', color: '#c5a059',
-              transition: 'background 0.3s ease',
-            }}>
+            <span className="btn-base btn-primary" style={{ padding: '8px 16px', fontSize: '12px' }}>
               Voir →
             </span>
           </div>

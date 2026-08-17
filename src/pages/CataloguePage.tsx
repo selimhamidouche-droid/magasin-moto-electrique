@@ -58,20 +58,7 @@ export default function CataloguePage() {
     return typeOk && brandOk;
   });
 
-  const filterBtnStyle = (active: boolean): React.CSSProperties => ({
-    fontFamily: '"Montserrat", system-ui, sans-serif',
-    fontSize: '12px',
-    fontWeight: 700,
-    letterSpacing: '1.5px',
-    textTransform: 'uppercase',
-    padding: '10px 20px',
-    borderRadius: '30px',
-    border: active ? '1px solid #c5a059' : '1px solid rgba(255,255,255,0.12)',
-    background: active ? 'rgba(197,160,89,0.15)' : 'transparent',
-    color: active ? '#c5a059' : '#888',
-    cursor: 'pointer',
-    transition: 'all 0.25s ease',
-  });
+
 
   return (
     <>
@@ -96,19 +83,19 @@ export default function CataloguePage() {
         <section style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px 48px' }}>
           <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
             {/* Type filters */}
-            <button id="filter-all" style={filterBtnStyle(activeType === 'all')} onClick={() => setActiveType('all')}>Tous</button>
-            <button id="filter-motos" style={filterBtnStyle(activeType === 'moto')} onClick={() => setActiveType('moto')}>Motos</button>
-            <button id="filter-scooters" style={filterBtnStyle(activeType === 'scooter')} onClick={() => setActiveType('scooter')}>Scooters</button>
+            <button id="filter-all" className={`btn-base btn-primary btn-sm filter-btn ${activeType === 'all' ? 'active' : ''}`} onClick={() => setActiveType('all')}>Tous</button>
+            <button id="filter-motos" className={`btn-base btn-primary btn-sm filter-btn ${activeType === 'moto' ? 'active' : ''}`} onClick={() => setActiveType('moto')}>Motos</button>
+            <button id="filter-scooters" className={`btn-base btn-primary btn-sm filter-btn ${activeType === 'scooter' ? 'active' : ''}`} onClick={() => setActiveType('scooter')}>Scooters</button>
 
             <span style={{ color: 'rgba(255,255,255,0.15)', fontSize: '20px', margin: '0 4px' }}>|</span>
 
             {/* Brand filters */}
-            <button id="filter-brand-all" style={filterBtnStyle(activeBrand === 'all')} onClick={() => setActiveBrand('all')}>Toutes marques</button>
+            <button id="filter-brand-all" className={`btn-base btn-primary btn-sm filter-btn ${activeBrand === 'all' ? 'active' : ''}`} onClick={() => setActiveBrand('all')}>Toutes marques</button>
             {brandsConfig.map(b => (
               <button
                 key={b.slug}
                 id={`filter-brand-${b.slug}`}
-                style={filterBtnStyle(activeBrand === b.slug)}
+                className={`btn-base btn-primary btn-sm filter-btn ${activeBrand === b.slug ? 'active' : ''}`}
                 onClick={() => setActiveBrand(b.slug)}
               >
                 {b.name}
@@ -120,31 +107,14 @@ export default function CataloguePage() {
         {/* Hubs de catégorie (maillage interne) */}
         <section style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px 32px' }}>
           <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-            <Link to="/catalogue/motos" style={{
-              display: 'inline-flex', alignItems: 'center', gap: '8px',
-              fontSize: '13px', fontWeight: 600, color: '#c5a059', textDecoration: 'none',
-              padding: '10px 20px', borderRadius: '12px',
-              background: 'rgba(197,160,89,0.08)', border: '1px solid rgba(197,160,89,0.2)',
-              transition: 'background 0.2s',
-            }}>
+            <Link to="/catalogue/motos" className="btn-base btn-primary btn-sm">
               🏍 Hub Motos Électriques →
             </Link>
-            <Link to="/catalogue/scooters" style={{
-              display: 'inline-flex', alignItems: 'center', gap: '8px',
-              fontSize: '13px', fontWeight: 600, color: '#64b4ff', textDecoration: 'none',
-              padding: '10px 20px', borderRadius: '12px',
-              background: 'rgba(100,180,255,0.08)', border: '1px solid rgba(100,180,255,0.2)',
-              transition: 'background 0.2s',
-            }}>
+            <Link to="/catalogue/scooters" className="btn-base btn-primary btn-sm">
               🛵 Hub Scooters Électriques →
             </Link>
             {brandsConfig.map(b => (
-              <Link key={b.slug} to={`/marques/${b.slug}`} style={{
-                display: 'inline-flex', alignItems: 'center', gap: '8px',
-                fontSize: '13px', fontWeight: 600, color: '#fff', textDecoration: 'none',
-                padding: '10px 20px', borderRadius: '12px',
-                background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.1)',
-              }}>
+              <Link key={b.slug} to={`/marques/${b.slug}`} className="btn-base btn-primary btn-sm">
                 {b.name} →
               </Link>
             ))}

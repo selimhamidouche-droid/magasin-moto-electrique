@@ -53,13 +53,7 @@ export default function CategorieMotos() {
           {/* Marques links */}
           <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
             {motosBrands.map(b => (
-              <Link key={b.slug} to={`/marques/${b.slug}`} style={{
-                display: 'inline-flex', alignItems: 'center', gap: '8px',
-                fontSize: '13px', fontWeight: 700, color: '#fff', textDecoration: 'none',
-                padding: '12px 24px', borderRadius: '40px',
-                background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.12)',
-                letterSpacing: '0.5px', transition: 'border-color 0.2s',
-              }}>
+              <Link key={b.slug} to={`/marques/${b.slug}`} className="btn-base btn-primary btn-sm">
                 Voir toutes les {b.name} →
               </Link>
             ))}
