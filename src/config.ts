@@ -167,8 +167,8 @@ export const frenchConfig = {
     ],
   },
   heroConfig: {
-    videoPath: "./videos/lightbee.mp4",
-    videoPoster: "./images/lb-1-1024x683.jpeg",
+    videoPath: "/videos/lightbee.mp4",
+    videoPoster: "/images/lb-1-1024x683.jpeg",
     eyebrow: "Concessionnaire Moto 100% en Ligne",
     titleLine: "Ta Prochaine Moto",
     titleEmphasis: "Livrée en 72h",
@@ -213,7 +213,7 @@ export const frenchConfig = {
         price: "Dès 4 990 €",
         frequency: "ou 99 €/mois",
         journeys: "Agilité & polyvalence",
-        image: "./images/surron-light-bee-noir.png",
+        image: "/images/surron-light-bee-noir.png",
         description:
           "Idéal pour la ville et les balades du week-end. Des motos légères, coupleuses et racées, parfaites pour tous les niveaux d'expérience.",
         amenities: [
@@ -232,7 +232,7 @@ export const frenchConfig = {
         price: "Dès 8 490 €",
         frequency: "ou 169 €/mois",
         journeys: "Circuit & performances",
-        image: "./images/surron-ultra-bee.png",
+        image: "/images/surron-ultra-bee.png",
         description:
           "Les machines ultimes pour la vitesse et la précision. Des moteurs rageurs et des carénages aérodynamiques pour les vrais passionnés.",
         amenities: [
@@ -251,7 +251,7 @@ export const frenchConfig = {
         price: "Dès 10 990 €",
         frequency: "ou 219 €/mois",
         journeys: "Longues distances & confort",
-        image: "./images/surron-light-bee-vert.png",
+        image: "/images/surron-light-bee-vert.png",
         description:
           "Taillées pour la route. Que ce soit pour traverser le pays ou cruiser tranquillement, ces motos offrent un confort et une capacité de chargement inégalés.",
         amenities: [
@@ -325,8 +325,8 @@ export const frenchMainPageConfig: MainPageConfig = {
       title: "Roadsters",
       route: "Urbains & Agressifs",
       description: "Le choix parfait pour la ville et les départementales. Un maximum de sensations avec un moteur à nu et une position de conduite droite et joueuse.",
-      image: "./images/surron-light-bee-noir.png",
-      mapImage: "./images/surron-light-bee-bleu.png",
+      image: "/images/surron-light-bee-noir.png",
+      mapImage: "/images/surron-light-bee-bleu.png",
       duration: "En stock",
       price: "Dès 4 990 €",
       video: "/videos/roadster.mp4"
@@ -336,8 +336,8 @@ export const frenchMainPageConfig: MainPageConfig = {
       title: "Sportives",
       route: "Circuit & Adrénaline",
       description: "Des carénages profilés et des moteurs surpuissants. Taillées pour le chronomètre et pour les motards exigeants à la recherche de performances pures.",
-      image: "./images/surron-ultra-bee.png",
-      mapImage: "./images/surron-ultra-bee.png",
+      image: "/images/surron-ultra-bee.png",
+      mapImage: "/images/surron-ultra-bee.png",
       duration: "En stock",
       price: "Dès 8 490 €",
       video: "/videos/sportive.mp4"
@@ -347,8 +347,8 @@ export const frenchMainPageConfig: MainPageConfig = {
       title: "Trails & Customs",
       route: "Voyage & Évasion",
       description: "Conçues pour avaler les kilomètres dans un confort absolu. Une position de conduite relaxante et des capacités de chargement pour tes road trips.",
-      image: "./images/surron-light-bee-vert.png",
-      mapImage: "./images/surron-light-bee-violet.png",
+      image: "/images/surron-light-bee-vert.png",
+      mapImage: "/images/surron-light-bee-violet.png",
       duration: "En stock",
       price: "Dès 10 990 €"
     }
@@ -359,19 +359,19 @@ export const frenchMainPageConfig: MainPageConfig = {
     {
       title: "Inspection Rigoureuse",
       description: "Chaque moto passe entre les mains de nos mécaniciens certifiés. Plus de 100 points de contrôle : freins, moteur, partie cycle et électronique.",
-      image: "./images/surron-action-1.jpg",
+      image: "/images/surron-action-1.jpg",
       feature: "Zéro mauvaise surprise"
     },
     {
       title: "Paiement 100% Sécurisé",
       description: "Acheter une moto n'a jamais été aussi simple. Un paiement en ligne sécurisé, avec des options de financement adaptées à ton budget.",
-      image: "./images/surron-action-2.jpg",
+      image: "/images/surron-action-2.jpg",
       feature: "Crédit rapide et simple"
     },
     {
       title: "Livraison à Domicile",
       description: "On s'occupe de tout. Ta moto est chargée avec soin et livrée directement devant chez toi sous 72h. Tu n'as plus qu'à tourner la clé.",
-      image: "./images/surron-action-3.jpg",
+      image: "/images/surron-action-3.jpg",
       feature: "Prête à rouler à l'arrivée"
     }
   ],
@@ -395,7 +395,7 @@ export const brandsConfig: BrandConfig[] = [
     name: 'Surron',
     tagline: 'La Référence du Trial Électrique',
     description: 'Fondée en 2014 en Chine, Surron est la marque leader mondial des motos électriques légères et du trial électrique. Leurs machines combinent légèreté extrême, performances pures et fiabilité pour une expérience hors du commun sur et hors des sentiers battus.',
-    heroImage: './images/light-bee-seven-img8-1920x1280-1-1024x683-1.jpg',
+    heroImage: '/images/light-bee-seven-img8-1920x1280-1-1024x683-1.jpg',
     country: 'Chine',
     founded: '2014',
     vehicleTypes: ['moto'],
@@ -405,7 +405,7 @@ export const brandsConfig: BrandConfig[] = [
     name: 'Niu',
     tagline: 'Le Scooter Urbain Réinventé',
     description: 'Niu Technologies (NYSE: NIU) est le leader mondial du scooter électrique connecté. Fondée à Pékin en 2014, la marque a révolutionné la mobilité urbaine avec des scooters intelligents, connectés via application mobile et dotés d\'une autonomie record.',
-    heroImage: './images/lb-6-1024x683.jpeg',
+    heroImage: '/images/lb-6-1024x683.jpeg',
     country: 'Chine',
     founded: '2014',
     vehicleTypes: ['scooter'],
@@ -426,7 +426,7 @@ export const staticProducts: ProductConfig[] = [
     autonomie: 100,
     puissance_kw: 6,
     permis_requis: 'AM / A1',
-    image_url: './images/lb-1-1024x683.jpeg',
+    image_url: '/images/lb-1-1024x683.jpeg',
     description: 'La Light Bee X est la référence absolue du trial électrique. Ultra-légère (47 kg), maniable et puissante, elle est homologuée route et taillée pour les single-tracks.',
     en_stock: true,
     specs: { Poids: '47 kg', Batterie: '3 024 Wh', Charge: '4h', Freins: 'Disques hydrauliques' },
@@ -443,7 +443,7 @@ export const staticProducts: ProductConfig[] = [
     autonomie: 100,
     puissance_kw: 6,
     permis_requis: 'AM / A1',
-    image_url: './images/light-bee-seven-img11-1920x1280-1-1024x683-1.jpg',
+    image_url: '/images/light-bee-seven-img11-1920x1280-1-1024x683-1.jpg',
     description: 'Version Trail de la Light Bee X avec équipements hors-piste. Légère, agile et homologuée route pour une polyvalence maximale sur et hors des sentiers.',
     en_stock: true,
     specs: { Poids: '47 kg', Batterie: '3 024 Wh', Charge: '4h', Freins: 'Disques hydrauliques' },
@@ -460,7 +460,7 @@ export const staticProducts: ProductConfig[] = [
     autonomie: 130,
     puissance_kw: 12.5,
     permis_requis: 'A1 / A',
-    image_url: './images/lb-3-1024x683.jpeg',
+    image_url: '/images/lb-3-1024x683.jpeg',
     description: 'L\'Ultra Bee pousse les limites du possible. Puissance moteur portée à 12.5 kW, cadre renforcé, fourche à grand débattement. La bête des hors-pistes électriques.',
     en_stock: true,
     specs: { Poids: '80 kg', Batterie: '4 680 Wh', Charge: '5h', Freins: 'Disques hydrauliques 4 pistons' },
@@ -477,7 +477,7 @@ export const staticProducts: ProductConfig[] = [
     autonomie: 150,
     puissance_kw: 22.5,
     permis_requis: 'A',
-    image_url: './images/lb-5-1024x683.jpeg',
+    image_url: '/images/lb-5-1024x683.jpeg',
     description: 'La Storm Bee est un monstre de puissance. 22.5 kW, 0 à 100 km/h en moins de 4 secondes. Pour les riders les plus exigeants qui veulent dominer n\'importe quel terrain.',
     en_stock: false,
     specs: { Poids: '118 kg', Batterie: '6 480 Wh', Charge: '6h', Freins: 'Brembo hydrauliques' },
@@ -494,7 +494,7 @@ export const staticProducts: ProductConfig[] = [
     autonomie: 120,
     puissance_kw: 3,
     permis_requis: 'AM / A1',
-    image_url: './images/lb-2-1024x683.jpeg',
+    image_url: '/images/lb-2-1024x683.jpeg',
     description: 'Le NQi GT Pro est le scooter connecté par excellence. Application mobile intégrée, géolocalisation GPS, double batterie amovible et design haut de gamme pour la ville.',
     en_stock: true,
     specs: { Poids: '98 kg', Batterie: '2× 35 Ah', Charge: '6h', Connectivité: 'Bluetooth & 4G' },
@@ -511,7 +511,7 @@ export const staticProducts: ProductConfig[] = [
     autonomie: 80,
     puissance_kw: 1.5,
     permis_requis: 'AM (BSR)',
-    image_url: './images/lb-4-1024x683.jpeg',
+    image_url: '/images/lb-4-1024x683.jpeg',
     description: 'Léger, compact et connecté. L\'UQi GT Pro est le compagnon idéal des city-riders. Accessible dès le BSR, batterie amovible et design moderne.',
     en_stock: true,
     specs: { Poids: '68 kg', Batterie: '1× 35 Ah amovible', Charge: '4h', Connectivité: 'Bluetooth' },
