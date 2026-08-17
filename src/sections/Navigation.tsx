@@ -122,9 +122,9 @@ export default function Navigation({
         >
           {navigationConfig.brandName ? (
             <a
-              href="#hero"
-              onClick={(e) => handleNavClick(e, '#hero')}
-              aria-label={`${navigationConfig.brandName} — Retour en haut de page`}
+              href="/"
+              onClick={(e) => handleNavClick(e, '/')}
+              aria-label={`${navigationConfig.brandName} — Retour à l'accueil`}
               style={{
                 fontFamily: '"Montserrat", system-ui, sans-serif',
                 fontSize: 'clamp(16px, 4vw, 22px)',
