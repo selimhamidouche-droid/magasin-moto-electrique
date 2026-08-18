@@ -63,7 +63,7 @@ export default function MarquePage() {
               </ol>
             </nav>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '40px', alignItems: 'start' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '32px', marginBottom: '32px' }}>
               <div>
                 <p style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: accentColor, marginBottom: '16px' }}>
                   Marque officielle
@@ -71,33 +71,36 @@ export default function MarquePage() {
                 <h1 style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: 'clamp(40px, 7vw, 80px)', fontWeight: 800, color: '#fff', lineHeight: 1, marginBottom: '16px' }}>
                   {brand.name}
                 </h1>
-                <p style={{ fontSize: '18px', fontWeight: 600, color: accentColor, marginBottom: '24px' }}>
+                <p style={{ fontSize: '18px', fontWeight: 600, color: accentColor }}>
                   {brand.tagline}
-                </p>
-                <p style={{ color: '#888', fontSize: '15px', maxWidth: '600px', lineHeight: 1.8 }}>
-                  {brand.description}
                 </p>
               </div>
 
               {/* Méta marque */}
               <div style={{
                 background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
-                borderRadius: '16px', padding: '24px', minWidth: '180px',
+                borderRadius: '16px', padding: '20px 24px',
+                display: 'flex', gap: '28px', flexWrap: 'wrap', alignItems: 'center',
               }}>
-                <div style={{ marginBottom: '20px' }}>
-                  <p style={{ fontSize: '11px', color: '#555', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '4px' }}>Fondée en</p>
-                  <p style={{ fontSize: '20px', fontWeight: 800, color: '#fff' }}>{brand.founded}</p>
-                </div>
-                <div style={{ marginBottom: '20px' }}>
-                  <p style={{ fontSize: '11px', color: '#555', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '4px' }}>Pays</p>
-                  <p style={{ fontSize: '16px', fontWeight: 700, color: '#fff' }}>{brand.country}</p>
+                <div>
+                  <p style={{ fontSize: '11px', color: '#666', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '4px' }}>Fondée en</p>
+                  <p style={{ fontSize: '20px', fontWeight: 800, color: '#fff', margin: 0 }}>{brand.founded}</p>
                 </div>
                 <div>
-                  <p style={{ fontSize: '11px', color: '#555', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '4px' }}>Modèles dispo.</p>
-                  <p style={{ fontSize: '20px', fontWeight: 800, color: accentColor }}>{brandProducts.length}</p>
+                  <p style={{ fontSize: '11px', color: '#666', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '4px' }}>Pays</p>
+                  <p style={{ fontSize: '16px', fontWeight: 700, color: '#fff', margin: 0 }}>{brand.country}</p>
+                </div>
+                <div>
+                  <p style={{ fontSize: '11px', color: '#666', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '4px' }}>Modèles dispo.</p>
+                  <p style={{ fontSize: '20px', fontWeight: 800, color: accentColor, margin: 0 }}>{brandProducts.length}</p>
                 </div>
               </div>
             </div>
+
+            {/* Description étirée sur toute la largeur sous la boîte */}
+            <p style={{ color: '#aaa', fontSize: '16px', lineHeight: 1.8, maxWidth: '100%' }}>
+              {brand.description}
+            </p>
           </div>
         </section>
 
