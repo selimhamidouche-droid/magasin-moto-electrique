@@ -29,7 +29,7 @@ export default function MainPage() {
     title: frenchConfig.siteConfig.siteTitle,
     description: frenchConfig.siteConfig.siteDescription,
     lang: 'fr',
-    canonicalUrl: 'https://www.motovite.com/',
+    canonicalUrl: 'https://www.survolte.com/',
   });
 
   return (
@@ -62,7 +62,7 @@ export default function MainPage() {
                   <source src={frenchConfig.heroConfig.videoPath} type="video/mp4" />
                 </video>
               ) : (
-                <img src={frenchConfig.heroConfig.videoPath} alt="MotoVite Hero Background" aria-hidden="true" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={frenchConfig.heroConfig.videoPath} alt="SurVolté Hero Background" aria-hidden="true" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               )
             )}
           </div>
@@ -192,7 +192,7 @@ export default function MainPage() {
                   marginBottom: '16px',
                 }}
               >
-                Gamme MotoVite 2026
+                Gamme SurVolté 2026
               </p>
               <h2
                 style={{

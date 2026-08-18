@@ -1,4 +1,4 @@
-# Règles de Design MotoVite
+# Règles de Design SurVolté
 
 ## Le Système de Bouton Unique (Off-White)
 

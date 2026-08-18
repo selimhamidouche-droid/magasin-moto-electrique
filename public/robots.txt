@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.motovite.com/sitemap.xml
+Sitemap: https://www.survolte.com/sitemap.xml

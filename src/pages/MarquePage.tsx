@@ -14,13 +14,13 @@ export default function MarquePage() {
 
   usePageSEO({
     title: brand
-      ? `${brand.name} — ${brand.tagline} | MotoVite`
-      : 'Marque introuvable | MotoVite',
+      ? `${brand.name} — ${brand.tagline} | SurVolté`
+      : 'Marque introuvable | SurVolté',
     description: brand
       ? brand.description.slice(0, 160)
       : '',
     lang: 'fr',
-    canonicalUrl: `https://www.motovite.com/marques/${slug}`,
+    canonicalUrl: `https://www.survolte.com/marques/${slug}`,
   });
 
   if (!brand) return <Navigate to="/catalogue" replace />;

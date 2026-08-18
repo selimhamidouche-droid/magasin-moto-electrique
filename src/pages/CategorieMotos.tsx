@@ -12,10 +12,10 @@ export default function CategorieMotos() {
   useLenis();
 
   usePageSEO({
-    title: `Motos Électriques — Surron & plus | MotoVite`,
+    title: `Motos Électriques — Surron & plus | SurVolté`,
     description: `Toutes nos motos électriques homologuées route : trial, enduro, cross. Surron Light Bee, Ultra Bee, Storm Bee. Livraison sous 72h, garantie certifiée.`,
     lang: 'fr',
-    canonicalUrl: 'https://www.motovite.com/catalogue/motos',
+    canonicalUrl: 'https://www.survolte.com/catalogue/motos',
   });
 
   const motosBrands = brandsConfig.filter(b => b.vehicleTypes.includes('moto'));

@@ -15,10 +15,10 @@ export default function CartPage() {
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
   usePageSEO({
-    title: 'Mon Panier — MotoVite',
-    description: 'Votre panier MotoVite. Vérifiez vos sélections et finalisez votre commande.',
+    title: 'Mon Panier — SurVolté',
+    description: 'Votre panier SurVolté. Vérifiez vos sélections et finalisez votre commande.',
     lang: 'fr',
-    canonicalUrl: 'https://www.motovite.com/panier',
+    canonicalUrl: 'https://www.survolte.com/panier',
   });
 
   const handleOrder = async () => {

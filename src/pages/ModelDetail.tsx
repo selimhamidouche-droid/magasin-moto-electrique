@@ -17,11 +17,11 @@ export default function ModelDetail() {
 
   usePageSEO({
     title: product
-      ? `${product.nom} — ${product.prix.toLocaleString('fr-FR')} € | MotoVite`
-      : 'Modèle non trouvé | MotoVite',
+      ? `${product.nom} — ${product.prix.toLocaleString('fr-FR')} € | SurVolté`
+      : 'Modèle non trouvé | SurVolté',
     description: product?.description || frenchConfig.siteConfig.siteDescription,
     lang: 'fr',
-    canonicalUrl: `https://www.motovite.com/motos/${id}`,
+    canonicalUrl: `https://www.survolte.com/motos/${id}`,
   });
 
   if (!product) return <Navigate to="/catalogue" replace />;

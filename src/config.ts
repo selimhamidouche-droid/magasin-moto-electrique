@@ -148,16 +148,16 @@ export interface MainPageConfig {
   ctaButton: string
 }
 
-// ─── French Config (MotoVite) ───
+// ─── French Config (SurVolté) ───
 export const frenchConfig = {
   siteConfig: {
     language: "fr",
-    siteTitle: "MotoVite — Achète ta moto en ligne",
+    siteTitle: "SurVolté — Achète ta moto en ligne",
     siteDescription:
       "Ton concessionnaire 100% en ligne. Achète ta moto neuve ou d'occasion avec une livraison à domicile en 72h. Qualité certifiée.",
   },
   navigationConfig: {
-    brandName: "MotoVite",
+    brandName: "SurVolté",
     links: [
       { label: "Notre Approche", target: "/#destinations" },
       { label: "Comment ça marche", target: "/#fleet" },
@@ -181,7 +181,7 @@ export const frenchConfig = {
   },
   manifestoConfig: {
     sectionLabel: "Notre Philosophie",
-    text: "Nous croyons que l'achat d'une moto ne devrait pas rimer avec des vendeurs insistants et des frais cachés. Avec MotoVite, nous réinventons la concession. Un achat 100% en ligne, des prix transparents et une qualité certifiée. Nous ne vendons pas juste des deux-roues ; nous livrons la liberté et l'adrénaline directement dans ton garage.",
+    text: "Nous croyons que l'achat d'une moto ne devrait pas rimer avec des vendeurs insistants et des frais cachés. Avec SurVolté, nous réinventons la concession. Un achat 100% en ligne, des prix transparents et une qualité certifiée. Nous ne vendons pas juste des deux-roues ; nous livrons la liberté et l'adrénaline directement dans ton garage.",
   },
   anatomyConfig: {
     sectionLabel: "Le Concept",
@@ -269,7 +269,7 @@ export const frenchConfig = {
   },
   footerConfig: {
     ageGateText: "Toutes nos ventes sont soumises à nos conditions générales de vente.",
-    brandName: "MotoVite",
+    brandName: "SurVolté",
     brandTaglineLines: [
       "Concessionnaire moto & scooter électrique 100% en ligne.",
       "Qualité certifiée. Livraison sous 72h.",
@@ -307,13 +307,13 @@ export const frenchConfig = {
         ],
       },
     ],
-    copyright: "© 2026 MotoVite. Tous droits réservés.",
+    copyright: "© 2026 SurVolté. Tous droits réservés.",
   },
 }
 
 // ─── Configuration spécifique à la MainPage en français ───
 export const frenchMainPageConfig: MainPageConfig = {
-  heroTitle: "MotoVite",
+  heroTitle: "SurVolté",
   heroSubtitle: "Ton concessionnaire 100% en ligne. Des motos révisées et garanties.",
   bookingTitle: "Trouver ta Moto",
   bookingCta: "Voir le Catalogue",
@@ -376,7 +376,7 @@ export const frenchMainPageConfig: MainPageConfig = {
     }
   ],
   ctaTitle: "Prêt à prendre la route ?",
-  ctaSubtitle: "Rejoins les milliers de motards qui ont déjà fait confiance à MotoVite pour l'achat de leur nouveau deux-roues.",
+  ctaSubtitle: "Rejoins les milliers de motards qui ont déjà fait confiance à SurVolté pour l'achat de leur nouveau deux-roues.",
   ctaButton: "Parcourir les Motos"
 }
 

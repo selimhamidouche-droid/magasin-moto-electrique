@@ -12,10 +12,10 @@ export default function CategorieScooters() {
   useLenis();
 
   usePageSEO({
-    title: `Scooters Électriques — Niu & plus | MotoVite`,
+    title: `Scooters Électriques — Niu & plus | SurVolté`,
     description: `Nos scooters électriques connectés pour la ville : Niu NQi GT Pro, UQi GT Pro. Batterie amovible, application mobile, livraison sous 72h.`,
     lang: 'fr',
-    canonicalUrl: 'https://www.motovite.com/catalogue/scooters',
+    canonicalUrl: 'https://www.survolte.com/catalogue/scooters',
   });
 
   const scooterBrands = brandsConfig.filter(b => b.vehicleTypes.includes('scooter'));

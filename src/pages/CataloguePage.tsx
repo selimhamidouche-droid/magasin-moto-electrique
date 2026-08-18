@@ -55,10 +55,10 @@ export default function CataloguePage() {
   }, []);
 
   usePageSEO({
-    title: `Catalogue Motos & Scooters Électriques — MotoVite`,
+    title: `Catalogue Motos & Scooters Électriques — SurVolté`,
     description: `Découvrez notre catalogue complet de motos et scooters électriques : Surron, Niu et plus. Livraison sous 72h, garantie certifiée.`,
     lang: 'fr',
-    canonicalUrl: 'https://www.motovite.com/catalogue',
+    canonicalUrl: 'https://www.survolte.com/catalogue',
   });
 
   const filtered = products.filter(p => {

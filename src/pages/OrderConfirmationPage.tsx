@@ -10,10 +10,10 @@ export default function OrderConfirmationPage() {
   const { clearCart } = useCart();
 
   usePageSEO({
-    title: 'Commande confirmée — MotoVite',
-    description: 'Votre commande a bien été reçue. Merci pour votre achat chez MotoVite.',
+    title: 'Commande confirmée — SurVolté',
+    description: 'Votre commande a bien été reçue. Merci pour votre achat chez SurVolté.',
     lang: 'fr',
-    canonicalUrl: 'https://www.motovite.com/commande-confirmee',
+    canonicalUrl: 'https://www.survolte.com/commande-confirmee',
   });
 
   useEffect(() => {

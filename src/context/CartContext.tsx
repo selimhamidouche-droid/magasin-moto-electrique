@@ -18,7 +18,7 @@ interface CartContextType {
 }
 
 const CartContext = createContext<CartContextType | null>(null);
-const LS_KEY = 'motovite_cart';
+const LS_KEY = 'survolte_cart';
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>(() => {

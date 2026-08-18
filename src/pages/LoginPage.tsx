@@ -16,10 +16,10 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
 
   usePageSEO({
-    title: 'Connexion — MotoVite',
-    description: 'Connectez-vous à votre compte MotoVite pour gérer vos commandes.',
+    title: 'Connexion — SurVolté',
+    description: 'Connectez-vous à votre compte SurVolté pour gérer vos commandes.',
     lang: 'fr',
-    canonicalUrl: 'https://www.motovite.com/login',
+    canonicalUrl: 'https://www.survolte.com/login',
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -80,7 +80,7 @@ export default function LoginPage() {
               textTransform: 'uppercase', color: '#c5a059', marginBottom: '32px',
               textAlign: 'center',
             }}>
-              MotoVite
+              SurVolté
             </p>
           </Link>
 

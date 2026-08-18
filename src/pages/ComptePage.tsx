@@ -13,10 +13,10 @@ export default function ComptePage() {
   const navigate = useNavigate();
 
   usePageSEO({
-    title: 'Mon Compte — MotoVite',
-    description: 'Gérez votre profil, vos commandes et vos préférences sur MotoVite.',
+    title: 'Mon Compte — SurVolté',
+    description: 'Gérez votre profil, vos commandes et vos préférences sur SurVolté.',
     lang: 'fr',
-    canonicalUrl: 'https://www.motovite.com/compte',
+    canonicalUrl: 'https://www.survolte.com/compte',
   });
 
   useEffect(() => {
