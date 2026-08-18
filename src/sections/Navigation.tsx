@@ -13,44 +13,18 @@ interface NavigationProps {
 
 export default function Navigation({
   config = defaultNavigationConfig,
-  dark = false,
 }: NavigationProps) {
   const navigationConfig = config;
   const { totalItems } = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
-  const [isLightSection, setIsLightSection] = useState(!dark);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 80);
-
-      if (dark) {
-        setIsLightSection(false);
-        return;
-      }
-
-      const navHeight = navRef.current?.offsetHeight ?? 0;
-      const probeY = navHeight > 0 ? navHeight * 0.6 : 60;
-      
-      const lightSectionIds = ['destinations', 'fleet', 'anatomy', 'tiers', 'footer'];
-      
-      const hasHero = !!document.getElementById('hero');
-      let isInLightSection = !hasHero;
-
-      if (hasHero) {
-        isInLightSection = lightSectionIds.some((id) => {
-          const el = document.getElementById(id);
-          if (!el) return false;
-          const rect = el.getBoundingClientRect();
-          return rect.top <= probeY && rect.bottom >= probeY;
-        });
-      }
-
-      setIsLightSection(isInLightSection);
     };
 
     handleScroll();
@@ -61,10 +35,10 @@ export default function Navigation({
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
     };
-  }, [dark]);
+  }, []);
 
-  const baseTextColor = isLightSection ? '#0F0F0F' : '#FDFBF7';
-  const hoverTextColor = isLightSection ? '#696969' : '#D4AF37';
+  const baseTextColor = '#FDFBF7';
+  const hoverTextColor = '#c5a059';
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     e.preventDefault();
@@ -94,7 +68,7 @@ export default function Navigation({
       navigate(targetId);
       return;
     }
-    
+
     try {
       const lenis = getLenis();
       if (lenis) {
@@ -137,11 +111,7 @@ export default function Navigation({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            backgroundColor: (scrolled || isMobileMenuOpen)
-              ? isLightSection
-                ? 'rgba(240, 236, 215, 0.95)' // Match cream/beige `#f0ecd7`
-                : 'rgba(24, 12, 4, 0.95)'     // Match dark brown `#0F0F0F`
-              : 'rgba(255, 255, 255, 0.01)',
+            backgroundColor: 'rgba(50, 54, 50, 0.85)',
             transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
           }}
         >
@@ -281,7 +251,7 @@ export default function Navigation({
               transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
             }} />
           </button>
-          
+
           {/* Cover block to erase bottom border of header */}
           <div style={{
             position: 'absolute',
@@ -289,9 +259,7 @@ export default function Navigation({
             right: '24px',
             width: '200px',
             height: '3px',
-            backgroundColor: (scrolled || isMobileMenuOpen)
-              ? isLightSection ? 'rgba(240, 236, 215, 0.95)' : 'rgba(24, 12, 4, 0.95)'
-              : 'transparent',
+            backgroundColor: 'rgba(50, 54, 50, 1)',
             opacity: isMobileMenuOpen ? 1 : 0,
             zIndex: 20,
             transition: 'opacity 0.3s ease',
@@ -307,7 +275,7 @@ export default function Navigation({
             height: '12px',
             backgroundColor: 'transparent',
             borderBottomLeftRadius: '12px',
-            boxShadow: `-12px 12px 0 0 ${(scrolled || isMobileMenuOpen) ? (isLightSection ? 'rgba(240, 236, 215, 0.95)' : 'rgba(24, 12, 4, 0.95)') : 'transparent'}`,
+            boxShadow: `-12px 12px 0 0 rgba(50, 54, 50, 0.95)`,
             opacity: isMobileMenuOpen ? 1 : 0,
             pointerEvents: 'none',
             zIndex: 20,
@@ -323,7 +291,7 @@ export default function Navigation({
             height: '12px',
             backgroundColor: 'transparent',
             borderBottomRightRadius: '12px',
-            boxShadow: `12px 12px 0 0 ${(scrolled || isMobileMenuOpen) ? (isLightSection ? 'rgba(240, 236, 215, 0.95)' : 'rgba(24, 12, 4, 0.95)') : 'transparent'}`,
+            boxShadow: `12px 12px 0 0 rgba(50, 54, 50, 0.95)`,
             opacity: isMobileMenuOpen ? 1 : 0,
             pointerEvents: 'none',
             zIndex: 20,
@@ -338,11 +306,7 @@ export default function Navigation({
               right: '24px',
               width: '200px',
               height: isMobileMenuOpen ? `${navigationConfig.links.length * 56 + 32}px` : '0px',
-              backgroundColor: (scrolled || isMobileMenuOpen)
-                ? isLightSection
-                  ? 'rgba(240, 236, 215, 0.95)'
-                  : 'rgba(24, 12, 4, 0.95)'
-                : 'rgba(255, 255, 255, 0.1)',
+              backgroundColor: 'rgba(50, 54, 50, 0.95)',
               backdropFilter: 'blur(20px)',
               WebkitBackdropFilter: 'blur(20px)',
               border: isMobileMenuOpen ? '1px solid rgba(255, 255, 255, 0.15)' : 'none',

@@ -1,5 +1,6 @@
-import { useParams, Link, Navigate } from 'react-router-dom';
+import { useParams, Link, Navigate, useNavigate } from 'react-router-dom';
 import { useLenis } from '../hooks/useLenis';
+import { useCart } from '../context/CartContext';
 import { usePageSEO } from '../hooks/usePageSEO';
 import Navigation from '../sections/Navigation.tsx';
 import Footer from '../sections/Footer.tsx';
@@ -8,6 +9,8 @@ import { frenchConfig, staticProducts, brandsConfig } from '../config.ts';
 export default function ModelDetail() {
   useLenis();
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const { addToCart } = useCart();
 
   const product = staticProducts.find(p => p.slug === id || p.id === id);
   const brand = product ? brandsConfig.find(b => b.slug === product.marque) : null;
@@ -132,6 +135,10 @@ export default function ModelDetail() {
                   id="btn-commander"
                   className="btn-base btn-primary"
                   style={{ flex: 1, minWidth: '160px' }}
+                  onClick={() => {
+                    addToCart(product);
+                    navigate('/panier');
+                  }}
                 >
                   Commander
                 </button>
@@ -139,6 +146,7 @@ export default function ModelDetail() {
                   id="btn-essai"
                   className="btn-base btn-primary"
                   style={{ flex: 1, minWidth: '160px' }}
+                  onClick={() => alert(`Demande d'essai pour ${product.nom} enregistrée ! Un conseiller va vous recontacter.`)}
                 >
                   Demander un essai
                 </button>

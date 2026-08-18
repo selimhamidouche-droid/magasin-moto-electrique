@@ -25,26 +25,41 @@ export default function CartPage() {
     if (!user) { navigate('/login'); return; }
     setCheckoutLoading(true);
     setCheckoutError(null);
+    
     try {
-      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-      const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-      const res = await fetch(`${supabaseUrl}/functions/v1/create-checkout-session`, {
+      const formData = new URLSearchParams();
+      formData.append('success_url', `${window.location.origin}/commande-confirmee`);
+      formData.append('cancel_url', `${window.location.origin}/panier`);
+      formData.append('mode', 'payment');
+      
+      items.forEach((item, i) => {
+        formData.append(`line_items[${i}][price_data][currency]`, 'eur');
+        formData.append(`line_items[${i}][price_data][product_data][name]`, item.product.nom);
+        if (item.product.image_url) {
+          // Stripe requires absolute URLs for images, we use a placeholder or leave it out if it's a relative path
+          const imgUrl = item.product.image_url.startsWith('http') 
+            ? item.product.image_url 
+            : `${window.location.origin}${item.product.image_url}`;
+          formData.append(`line_items[${i}][price_data][product_data][images][0]`, imgUrl);
+        }
+        formData.append(`line_items[${i}][price_data][unit_amount]`, Math.round(item.product.prix * 100).toString());
+        formData.append(`line_items[${i}][quantity]`, item.quantity.toString());
+      });
+
+      const res = await fetch('https://api.stripe.com/v1/checkout/sessions', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${supabaseKey}`,
+          'Authorization': `Bearer ${import.meta.env.VITE_STRIPE_SECRET_KEY}`,
+          'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: JSON.stringify({
-          items,
-          successUrl: `${window.location.origin}/commande-confirmee`,
-          cancelUrl: `${window.location.origin}/panier`,
-        }),
+        body: formData.toString()
       });
+      
       const data = await res.json();
       if (data.url) {
         window.location.href = data.url;
       } else {
-        setCheckoutError(data.error ?? 'Erreur lors de la création de la session de paiement.');
+        setCheckoutError(data.error?.message || 'Erreur lors de la création de la session Stripe.');
       }
     } catch (err) {
       setCheckoutError((err as Error).message);

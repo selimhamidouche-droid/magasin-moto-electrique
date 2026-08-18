@@ -49,15 +49,15 @@ export default function ProductCard({ product }: ProductCardProps) {
         }}
       >
         {/* Image */}
-        <div style={{ position: 'relative', width: '100%', height: '220px', backgroundColor: 'rgba(255,255,255,0.03)', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ position: 'relative', width: '100%', height: '220px', backgroundColor: 'transparent', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           {product.image_url ? (
             <img
               src={product.image_url}
               alt={product.nom}
               loading="lazy"
-              style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '16px', transition: 'transform 0.5s ease', boxSizing: 'border-box' }}
-              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1.05)'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1)'; }}
+              style={{ width: '100%', height: '100%', objectFit: 'contain', transform: 'scale(1.2)', transition: 'transform 0.5s ease', boxSizing: 'border-box' }}
+              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1.25)'; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1.2)'; }}
             />
           ) : (
             <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#444', fontSize: '13px' }}>
