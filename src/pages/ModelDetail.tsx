@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useParams, Link, Navigate, useNavigate } from 'react-router-dom';
 import { useLenis } from '../hooks/useLenis';
 import { useCart } from '../context/CartContext';
@@ -14,6 +15,17 @@ export default function ModelDetail() {
 
   const product = staticProducts.find(p => p.slug === id || p.id === id);
   const brand = product ? brandsConfig.find(b => b.slug === product.marque) : null;
+
+  const [activeImage, setActiveImage] = useState<string>(product?.image_url || '');
+  const [selectedColor, setSelectedColor] = useState<string>(product?.colors?.[0]?.name || '');
+
+  // Reset active image if product changes
+  useEffect(() => {
+    if (product) {
+      setActiveImage(product.image_url);
+      setSelectedColor(product.colors?.[0]?.name || '');
+    }
+  }, [product?.id]);
 
   usePageSEO({
     title: product
@@ -32,6 +44,10 @@ export default function ModelDetail() {
 
   // Autres produits de la même marque
   const related = staticProducts.filter(p => p.marque === product.marque && p.id !== product.id).slice(0, 3);
+
+  const galleryImages = product.gallery && product.gallery.length > 0 
+    ? product.gallery 
+    : [product.image_url];
 
   return (
     <>
@@ -60,23 +76,61 @@ export default function ModelDetail() {
 
           {/* Main Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
-            {/* Left — Image */}
-            <div className="rounded-3xl overflow-hidden relative aspect-square md:aspect-4/3 border border-white/10" style={{ background: 'rgba(255,255,255,0.02)' }}>
-              <img
-                src={product.image_url}
-                alt={product.nom}
-                className="w-full h-full object-contain p-6 md:p-12 box-border"
-              />
-              {/* Stock badge */}
+            {/* Left — Image & Interactive Gallery */}
+            <div className="flex flex-col gap-4">
               <div 
-                className="absolute top-4 left-4 text-[10px] md:text-xs font-bold tracking-wider uppercase px-3 md:px-4 py-1.5 md:py-2 rounded-full text-white shadow-lg"
-                style={{ background: product.en_stock ? 'rgba(80,200,120,0.9)' : 'rgba(255,80,80,0.85)' }}
+                className="rounded-3xl overflow-hidden relative aspect-square md:aspect-4/3 border border-white/10 flex items-center justify-center transition-all duration-300"
+                style={{ background: 'radial-gradient(circle at center, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%)' }}
               >
-                {product.en_stock ? '✓ En stock' : 'Sur commande'}
+                <img
+                  key={activeImage}
+                  src={activeImage}
+                  alt={`${product.nom} ${selectedColor}`}
+                  className="w-full h-full object-contain p-4 md:p-10 box-border transition-all duration-500 transform hover:scale-105"
+                />
+                {/* Stock badge */}
+                <div 
+                  className="absolute top-4 left-4 text-[10px] md:text-xs font-bold tracking-wider uppercase px-3 md:px-4 py-1.5 md:py-2 rounded-full text-white shadow-lg"
+                  style={{ background: product.en_stock ? 'rgba(80,200,120,0.9)' : 'rgba(255,80,80,0.85)' }}
+                >
+                  {product.en_stock ? '✓ En stock — Prêt à livrer' : 'Sur commande'}
+                </div>
+
+                {/* Badge 100% Electrique */}
+                <div className="absolute top-4 right-4 text-[10px] font-bold tracking-wider uppercase px-3 py-1.5 rounded-full bg-black/60 border border-white/15 text-white/90 backdrop-blur-md">
+                  ⚡ 100% Électrique
+                </div>
               </div>
+
+              {/* Gallery Thumbnails */}
+              {galleryImages.length > 1 && (
+                <div className="flex items-center gap-3 overflow-x-auto pb-2 scrollbar-thin">
+                  {galleryImages.map((img, idx) => {
+                    const isSelected = activeImage === img;
+                    return (
+                      <button
+                        key={idx}
+                        onClick={() => setActiveImage(img)}
+                        className={`relative rounded-xl overflow-hidden w-20 h-20 md:w-24 md:h-24 flex-shrink-0 border transition-all duration-200 cursor-pointer p-1.5 ${
+                          isSelected 
+                            ? 'border-[#c5a059] ring-2 ring-[#c5a059]/40 bg-white/10 scale-105' 
+                            : 'border-white/10 hover:border-white/30 bg-white/5 opacity-70 hover:opacity-100'
+                        }`}
+                        title={`Vue ${idx + 1}`}
+                      >
+                        <img 
+                          src={img} 
+                          alt={`${product.nom} thumbnail ${idx + 1}`} 
+                          className="w-full h-full object-contain"
+                        />
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
             </div>
 
-            {/* Right — Infos */}
+            {/* Right — Infos & Customization */}
             <div className="flex flex-col">
               <p className="text-[10px] md:text-xs font-bold tracking-widest uppercase mb-3" style={{ color: accentColor }}>
                 {product.marque.toUpperCase()} — {product.categorie}
@@ -86,14 +140,53 @@ export default function ModelDetail() {
               </h1>
 
               {/* Prix */}
-              <div className="mb-6 md:mb-8 flex items-baseline flex-wrap gap-x-4 gap-y-2">
+              <div className="mb-6 flex items-baseline flex-wrap gap-x-4 gap-y-2">
                 <span className="font-extrabold text-3xl md:text-4xl" style={{ color: accentColor, fontFamily: '"Montserrat", system-ui, sans-serif' }}>
                   {product.prix.toLocaleString('fr-FR')} €
                 </span>
-                <span className="text-xs md:text-sm text-neutral-500">ou financement disponible</span>
+                <span className="text-xs md:text-sm text-neutral-400">Bonus écologique & immatriculation offerts</span>
               </div>
 
-              <p className="text-neutral-400 text-sm md:text-base leading-relaxed mb-8">
+              {/* Color Selector */}
+              {product.colors && product.colors.length > 0 && (
+                <div className="mb-8 p-4 rounded-2xl border border-white/10 bg-white/[0.02]">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs font-bold uppercase tracking-wider text-neutral-400">
+                      Coloris disponibles :
+                    </span>
+                    <span className="text-xs font-extrabold text-white">
+                      {selectedColor || product.colors[0].name}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-3 flex-wrap">
+                    {product.colors.map((c) => {
+                      const isColorActive = (selectedColor === c.name) || (!selectedColor && activeImage === c.image);
+                      return (
+                        <button
+                          key={c.name}
+                          onClick={() => {
+                            setSelectedColor(c.name);
+                            setActiveImage(c.image);
+                          }}
+                          className={`flex items-center gap-2 px-3.5 py-2 rounded-xl border text-xs font-semibold transition-all duration-200 ${
+                            isColorActive
+                              ? 'border-[#c5a059] bg-[#c5a059]/10 text-white ring-1 ring-[#c5a059]'
+                              : 'border-white/10 bg-white/5 text-neutral-400 hover:text-white hover:border-white/20'
+                          }`}
+                        >
+                          <span
+                            className="w-4 h-4 rounded-full border border-white/30 shadow-inner flex-shrink-0"
+                            style={{ backgroundColor: c.hex }}
+                          />
+                          {c.name}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              <p className="text-neutral-300 text-sm md:text-base leading-relaxed mb-8">
                 {product.description}
               </p>
 
@@ -106,29 +199,48 @@ export default function ModelDetail() {
                   { label: 'Permis requis', value: product.permis_requis },
                   ...(product.specs ? Object.entries(product.specs).map(([label, value]) => ({ label, value })) : []),
                 ].map(({ label, value }) => (
-                  <div key={label} className="p-3 md:p-4 rounded-xl border border-white/5 flex flex-col justify-center" style={{ background: 'rgba(255,255,255,0.04)' }}>
-                    <p className="text-[9px] md:text-[10px] font-semibold tracking-widest uppercase text-neutral-500 mb-1 md:mb-2">{label}</p>
+                  <div key={label} className="p-3.5 md:p-4 rounded-xl border border-white/5 flex flex-col justify-center bg-white/[0.03]">
+                    <p className="text-[9px] md:text-[10px] font-semibold tracking-widest uppercase text-neutral-500 mb-1 md:mb-1.5">{label}</p>
                     <p className="text-sm md:text-base font-bold text-white leading-tight">{value}</p>
                   </div>
                 ))}
+              </div>
+
+              {/* Inclus avec votre commande (Service Badges) */}
+              <div className="grid grid-cols-3 gap-2 md:gap-3 mb-8 p-3 rounded-2xl bg-white/[0.02] border border-white/5">
+                <div className="flex flex-col items-center text-center p-2">
+                  <img src="/images/Carte-grise-slide-1-300x300.png" alt="Carte Grise" className="w-10 h-10 object-contain mb-1.5" />
+                  <span className="text-[10px] font-bold text-white">Carte Grise</span>
+                  <span className="text-[9px] text-neutral-400">Démarche offerte</span>
+                </div>
+                <div className="flex flex-col items-center text-center p-2 border-x border-white/5">
+                  <img src="/images/plaqueimmat-300x300.png" alt="Plaque Immatriculation" className="w-10 h-10 object-contain mb-1.5" />
+                  <span className="text-[10px] font-bold text-white">Plaque Posée</span>
+                  <span className="text-[9px] text-neutral-400">Homologuée plexi</span>
+                </div>
+                <div className="flex flex-col items-center text-center p-2">
+                  <img src="/images/atelier-300x300.png" alt="Contrôle Atelier" className="w-10 h-10 object-contain mb-1.5" />
+                  <span className="text-[10px] font-bold text-white">Atelier 100 Pts</span>
+                  <span className="text-[9px] text-neutral-400">Montée & testée</span>
+                </div>
               </div>
 
               {/* CTAs */}
               <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
                 <button
                   id="btn-commander"
-                  className="btn-base btn-primary w-full sm:flex-1 justify-center"
+                  className="btn-base btn-primary w-full sm:flex-1 justify-center py-4 text-sm font-bold tracking-wider uppercase"
                   onClick={() => {
                     addToCart(product);
                     navigate('/panier');
                   }}
                 >
-                  Commander
+                  Commander Maintenant
                 </button>
                 <button
                   id="btn-essai"
-                  className="btn-base w-full sm:flex-1 justify-center"
-                  style={{ background: 'rgba(255,255,255,0.05)', color: '#fff', border: '1px solid rgba(255,255,255,0.1)' }}
+                  className="btn-base w-full sm:flex-1 justify-center py-4 text-sm font-bold tracking-wider uppercase"
+                  style={{ background: 'rgba(255,255,255,0.05)', color: '#fff', border: '1px solid rgba(255,255,255,0.15)' }}
                   onClick={() => alert(`Demande d'essai pour ${product.nom} enregistrée ! Un conseiller va vous recontacter.`)}
                   onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.1)')}
                   onMouseLeave={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.05)')}
@@ -138,8 +250,8 @@ export default function ModelDetail() {
               </div>
 
               {/* Livraison mention */}
-              <p className="text-neutral-500 text-[11px] md:text-xs mt-6 flex items-center gap-2">
-                🚚 Livraison à domicile sous 72h — Retour satisfait ou remboursé 14 jours
+              <p className="text-neutral-400 text-[11px] md:text-xs mt-6 flex items-center gap-2">
+                🚚 Livraison à domicile sous 72h prête à rouler — Garantie constructeur 2 ans
               </p>
             </div>
           </div>

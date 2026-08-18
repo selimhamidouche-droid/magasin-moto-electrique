@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
@@ -12,6 +12,7 @@ interface ProductCardProps {
 export default function ProductCard({ product }: ProductCardProps) {
   const cardRef = useRef<HTMLAnchorElement>(null);
   const { addToCart } = useCart();
+  const [currentImg, setCurrentImg] = useState<string>(product.image_url);
 
   useGSAP(() => {
     gsap.from(cardRef.current, {
@@ -50,9 +51,10 @@ export default function ProductCard({ product }: ProductCardProps) {
       >
         {/* Image */}
         <div style={{ position: 'relative', width: '100%', height: '220px', backgroundColor: 'transparent', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          {product.image_url ? (
+          {currentImg ? (
             <img
-              src={product.image_url}
+              key={currentImg}
+              src={currentImg}
               alt={product.nom}
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'contain', transform: 'scale(1.2)', transition: 'transform 0.5s ease', boxSizing: 'border-box' }}
@@ -64,6 +66,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               Image indisponible
             </div>
           )}
+
           {/* Badges */}
           <div style={{ position: 'absolute', top: '12px', left: '12px', display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
             <span style={{
@@ -84,6 +87,49 @@ export default function ProductCard({ product }: ProductCardProps) {
               </span>
             )}
           </div>
+
+          {/* Color preview dots */}
+          {product.colors && product.colors.length > 1 && (
+            <div 
+              style={{ 
+                position: 'absolute', 
+                bottom: '8px', 
+                right: '12px', 
+                display: 'flex', 
+                gap: '6px', 
+                padding: '4px 8px', 
+                borderRadius: '12px', 
+                background: 'rgba(0,0,0,0.6)', 
+                backdropFilter: 'blur(6px)' 
+              }}
+              onClick={e => e.preventDefault()}
+            >
+              {product.colors.map(c => (
+                <button
+                  key={c.name}
+                  type="button"
+                  title={c.name}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setCurrentImg(c.image);
+                  }}
+                  onMouseEnter={() => setCurrentImg(c.image)}
+                  style={{
+                    width: '12px',
+                    height: '12px',
+                    borderRadius: '50%',
+                    backgroundColor: c.hex,
+                    border: currentImg === c.image ? '2px solid #c5a059' : '1px solid rgba(255,255,255,0.4)',
+                    padding: 0,
+                    cursor: 'pointer',
+                    transform: currentImg === c.image ? 'scale(1.2)' : 'scale(1)',
+                    transition: 'transform 0.2s ease',
+                  }}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Content */}
