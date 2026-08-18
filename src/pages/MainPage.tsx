@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import InspectionBanner from '../components/InspectionBanner';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
+import { motion } from 'framer-motion';
 
 export default function MainPage() {
   const heroRef = useRef(null);
@@ -180,7 +181,13 @@ export default function MainPage() {
           }}
         >
           <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+            <motion.div 
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              style={{ textAlign: 'center', marginBottom: '40px' }}
+            >
               <p
                 style={{
                   fontFamily: '"Montserrat", system-ui, sans-serif',
@@ -218,7 +225,7 @@ export default function MainPage() {
               >
                 {frenchMainPageConfig.destinationsSubtitle}
               </p>
-            </div>
+            </motion.div>
 
             <div
               style={{
@@ -227,27 +234,35 @@ export default function MainPage() {
                 gap: '40px 48px',
               }}
             >
-              {staticProducts.slice(0, 3).map((product) => (
-                <Link
-                  to={`/motos/${product.slug}`}
+              {staticProducts.slice(0, 3).map((product, index) => (
+                <motion.div
                   key={product.id}
-                  className="liquid-glass border border-white/5"
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    padding: '24px',
-                    borderRadius: '24px',
-                    transition: 'transform 0.4s ease',
-                    textDecoration: 'none',
-                  }}
-                  onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLElement).style.transform = 'translateY(-6px)';
-                  }}
-                  onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-                  }}
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.1 }}
+                  transition={{ duration: 0.6, delay: 0.1 + index * 0.15, ease: "easeOut" }}
+                  style={{ display: 'flex' }}
                 >
+                  <Link
+                    to={`/motos/${product.slug}`}
+                    className="liquid-glass border border-white/5"
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      padding: '24px',
+                      borderRadius: '24px',
+                      transition: 'transform 0.4s ease',
+                      textDecoration: 'none',
+                      width: '100%',
+                    }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLElement).style.transform = 'translateY(-6px)';
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+                    }}
+                  >
                   {/* Image */}
                   <div style={{ width: '100%', marginBottom: '24px', borderRadius: '16px', overflow: 'hidden', aspectRatio: '4/3', background: 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <img
@@ -333,6 +348,7 @@ export default function MainPage() {
                     </div>
                   </div>
                 </Link>
+              </motion.div>
               ))}
             </div>
 
@@ -363,7 +379,13 @@ export default function MainPage() {
           }}
         >
           <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+            <motion.div 
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              style={{ textAlign: 'center', marginBottom: '48px' }}
+            >
               <p
                 style={{
                   fontFamily: '"Montserrat", system-ui, sans-serif',
@@ -375,7 +397,7 @@ export default function MainPage() {
                   marginBottom: '16px',
                 }}
               >
-                Méthode
+                L'expérience SurVolté
               </p>
               <h2
                 style={{
@@ -402,18 +424,25 @@ export default function MainPage() {
               >
                 {frenchMainPageConfig.fleetSubtitle}
               </p>
-            </div>
+            </motion.div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '80px' }}>
               {frenchMainPageConfig.fleet.map((car, index) => (
-                <InspectionBanner
+                <motion.div
                   key={car.title}
-                  feature={car.feature}
-                  title={car.title}
-                  description={car.description}
-                  image={car.image}
-                  reverse={index % 2 !== 0}
-                />
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.8, ease: "easeOut" }}
+                >
+                  <InspectionBanner
+                    feature={car.feature}
+                    title={car.title}
+                    description={car.description}
+                    image={car.image}
+                    reverse={index % 2 !== 0}
+                  />
+                </motion.div>
               ))}
             </div>
           </div>
