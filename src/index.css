@@ -44,6 +44,8 @@
 
   body {
     background-color: #0F0F0F;
+    background-image: linear-gradient(rgba(15,15,15,0.7), rgba(15,15,15,0.7)), url('/images/bg-pattern.jpg');
+    background-repeat: repeat;
     color: #f8f8f8;
     font-family: 'Montserrat', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -262,7 +264,12 @@
 }
 
 
-html, body {
-  overflow-x: hidden;
+html {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  overflow-x: clip;
+}
+body {
+  overflow-x: clip;
 }
 

@@ -1,4 +1,7 @@
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 import type { ProductConfig } from '../config';
 
 interface ProductCardProps {
@@ -6,8 +9,21 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
+  const cardRef = useRef<HTMLAnchorElement>(null);
+
+  useGSAP(() => {
+    gsap.from(cardRef.current, {
+      y: 50,
+      opacity: 0,
+      duration: 0.8,
+      ease: 'power3.out',
+      clearProps: 'all'
+    });
+  }, { scope: cardRef });
+
   return (
     <Link
+      ref={cardRef}
       to={`/motos/${product.slug}`}
       style={{ textDecoration: 'none', display: 'block' }}
       aria-label={`Voir ${product.nom}`}

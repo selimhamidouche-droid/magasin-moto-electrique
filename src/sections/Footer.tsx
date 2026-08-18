@@ -35,6 +35,7 @@ export default function Footer({ config = defaultFooterConfig, dark = false }: F
         position: 'relative',
         zIndex: 2,
         borderTop: `1px solid ${borderColor}`,
+        scrollSnapAlign: 'start',
       }}
     >
       {/* Legal Disclaimer / Sales Terms */}
@@ -55,7 +56,7 @@ export default function Footer({ config = defaultFooterConfig, dark = false }: F
               lineHeight: 1.3,
               maxWidth: '1200px',
               margin: '0 auto',
-              whiteSpace: 'nowrap',
+              whiteSpace: 'normal',
             }}
           >
             {footerConfig.ageGateText}

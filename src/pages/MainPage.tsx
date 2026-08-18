@@ -1,13 +1,29 @@
-import { useLenis } from '../hooks/useLenis';
+import { useRef } from 'react';
 import { usePageSEO } from '../hooks/usePageSEO';
 import Navigation from '../sections/Navigation.tsx';
 import Footer from '../sections/Footer.tsx';
 import { frenchConfig, frenchMainPageConfig, staticProducts } from '../config.ts';
 import { Link } from 'react-router-dom';
 import InspectionBanner from '../components/InspectionBanner';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 
 export default function MainPage() {
-  useLenis();
+  const heroRef = useRef(null);
+
+  useGSAP(() => {
+    // Animation "styler" façon site premium
+    gsap.from('.goofy-letter', {
+      y: 100,
+      opacity: 0,
+      rotationZ: 10,
+      duration: 1.2,
+      stagger: 0.04,
+      ease: 'power4.out',
+    });
+  }, { scope: heroRef });
+
+  // CSS scroll snap is now handled in index.css
 
   usePageSEO({
     title: frenchConfig.siteConfig.siteTitle,
@@ -35,6 +51,7 @@ export default function MainPage() {
             justifyContent: 'center',
             overflow: 'hidden',
             padding: '80px 0 20px',
+            scrollSnapAlign: 'start',
           }}
         >
           {/* Layer 1: Background (Video or Image) */}
@@ -86,8 +103,16 @@ export default function MainPage() {
                 <span style={{ color: 'var(--mv-gold)', fontSize: '11px', fontWeight: 600, letterSpacing: '2px', textTransform: 'uppercase' }}>Édition 2026</span>
               </div>
 
-              <h1 style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: 'clamp(36px, 7vw, 72px)', fontWeight: 800, color: 'var(--mv-off-white)', lineHeight: 1, letterSpacing: '-2px' }}>
-                Ta prochaine moto.
+              <h1 ref={heroRef} style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: 'clamp(36px, 7vw, 72px)', fontWeight: 800, color: 'var(--mv-off-white)', lineHeight: 1, letterSpacing: '-2px', display: 'flex', flexWrap: 'wrap', gap: '0.3em' }}>
+                {"Ta prochaine moto.".split(' ').map((word, wIdx) => (
+                  <span key={wIdx} style={{ display: 'inline-flex', overflow: 'hidden', padding: '0 4px' }}>
+                    {word.split('').map((char, cIdx) => (
+                      <span key={cIdx} className="goofy-letter" style={{ display: 'inline-block', transformOrigin: 'left bottom' }}>
+                        {char}
+                      </span>
+                    ))}
+                  </span>
+                ))}
               </h1>
 
               <h2 style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: 'clamp(20px, 5vw, 42px)', fontWeight: 800, color: 'var(--mv-warm-beige)', lineHeight: 1.2 }}>
@@ -95,7 +120,6 @@ export default function MainPage() {
               </h2>
 
               <p className="hidden md:block" style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: 'clamp(14px, 3vw, 18px)', color: '#a0a0a0', lineHeight: 1.6, maxWidth: '520px', marginTop: '16px' }}>
-                <span style={{ color: 'var(--mv-off-white)', fontWeight: 500 }}>Choisis. Commande. Nous livrons. Sans concession.</span><br />
                 Choisissez votre moto en ligne. Nous nous occupons de l'inspection, des démarches et de la livraison.
               </p>
 
@@ -104,7 +128,6 @@ export default function MainPage() {
                 <div style={{ color: 'var(--mv-gold)', fontSize: '18px', letterSpacing: '3px' }}>★★★★★</div>
                 <div style={{ width: '1px', height: '24px', backgroundColor: 'rgba(255,255,255,0.1)' }} />
                 <span style={{ color: 'var(--mv-off-white)', fontSize: '14px', fontWeight: 600 }}>4.9/5</span>
-                <span style={{ color: '#a0a0a0', fontSize: '14px' }}>+1200 motos livrées en France</span>
               </div>
 
               {/* Action */}
@@ -116,14 +139,6 @@ export default function MainPage() {
                   Voir le Catalogue
                   <span style={{ fontSize: '20px', marginLeft: '12px' }}>→</span>
                 </Link>
-
-                {/* Reassurance Checkmarks */}
-                <div className="hidden md:flex" style={{ flexWrap: 'wrap', gap: '24px', color: '#888', fontSize: '13px', fontWeight: 500 }}>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{ color: 'var(--mv-gold)' }}>✓</span> Livraison à domicile</span>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{ color: 'var(--mv-gold)' }}>✓</span> Paiement sécurisé</span>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{ color: 'var(--mv-gold)' }}>✓</span> Garantie incluse</span>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{ color: 'var(--mv-gold)' }}>✓</span> Reprise possible</span>
-                </div>
               </div>
             </div>
 
@@ -146,30 +161,26 @@ export default function MainPage() {
             </div>
           </div>
 
-          {/* Scroll Indicator */}
-          <div className="animate-breathing" style={{ position: 'absolute', bottom: '40px', left: '50%', transform: 'translateX(-50%)', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px', opacity: 0.6 }}>
-            <span style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '3px', color: 'var(--mv-off-white)' }}>Scroll</span>
-            <div style={{ width: '1px', height: '40px', background: 'linear-gradient(to bottom, var(--mv-off-white), transparent)' }} />
-          </div>
+
         </section>
 
         {/* ─── DESTINATIONS / CATÉGORIES SECTION ─── */}
         <section
           id="destinations"
           style={{
-            backgroundColor: '#0F0F0F',
             color: '#FDFBF7',
-            padding: '120px 24px',
+            padding: '100px 24px 60px',
             position: 'relative',
             zIndex: 2,
             minHeight: '100vh',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
+            scrollSnapAlign: 'start',
           }}
         >
           <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <div style={{ textAlign: 'center', marginBottom: '80px' }}>
+            <div style={{ textAlign: 'center', marginBottom: '40px' }}>
               <p
                 style={{
                   fontFamily: '"Montserrat", system-ui, sans-serif',
@@ -213,20 +224,20 @@ export default function MainPage() {
               style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                gap: '60px 48px',
+                gap: '40px 48px',
               }}
             >
               {staticProducts.slice(0, 3).map((product) => (
                 <Link
                   to={`/motos/${product.slug}`}
                   key={product.id}
+                  className="liquid-glass border border-white/5"
                   style={{
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
-                    backgroundColor: 'transparent',
-                    border: 'none',
-                    padding: '0',
+                    padding: '24px',
+                    borderRadius: '24px',
                     transition: 'transform 0.4s ease',
                     textDecoration: 'none',
                   }}
@@ -325,7 +336,7 @@ export default function MainPage() {
             </div>
 
             {/* Voir tout le catalogue */}
-            <div style={{ textAlign: 'center', marginTop: '64px' }}>
+            <div style={{ textAlign: 'center', marginTop: '40px' }}>
               <Link
                 to="/catalogue"
                 className="btn-base btn-primary"
@@ -340,14 +351,14 @@ export default function MainPage() {
         <section
           id="fleet"
           style={{
-            backgroundColor: '#141414',
-            padding: '100px 24px',
+            padding: '100px 24px 60px',
             position: 'relative',
             zIndex: 2,
             minHeight: '100vh',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
+            scrollSnapAlign: 'start',
           }}
         >
           <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
@@ -411,16 +422,16 @@ export default function MainPage() {
         <section
           id="club-cta"
           style={{
-            backgroundColor: '#0F0F0F',
-            padding: '120px 24px',
+            padding: '100px 24px 60px',
             textAlign: 'center',
             position: 'relative',
             zIndex: 2,
             overflow: 'hidden',
-            minHeight: '80vh',
+            minHeight: '100dvh',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
+            scrollSnapAlign: 'start',
           }}
         >
           <video 
@@ -443,7 +454,7 @@ export default function MainPage() {
             aria-hidden="true"
           />
 
-          <div style={{ maxWidth: '800px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
+          <div className="liquid-glass border border-white/10 p-8 md:p-12 rounded-3xl" style={{ maxWidth: '800px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
             <p
               style={{
                 fontFamily: '"Montserrat", system-ui, sans-serif',
