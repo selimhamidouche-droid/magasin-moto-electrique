@@ -71,7 +71,7 @@ export default function ModelDetail() {
               <img
                 src={product.image_url}
                 alt={product.nom}
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '24px', boxSizing: 'border-box' }}
               />
               {/* Stock badge */}
               <div style={{
@@ -174,8 +174,8 @@ export default function ModelDetail() {
                     onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-4px)'; (e.currentTarget as HTMLElement).style.borderColor = `${accentColor}40`; }}
                     onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.07)'; }}
                   >
-                    <div style={{ height: '180px', overflow: 'hidden' }}>
-                      <img src={p.image_url} alt={p.nom} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <div style={{ height: '180px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <img src={p.image_url} alt={p.nom} style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '12px', boxSizing: 'border-box' }} />
                     </div>
                     <div style={{ padding: '16px 20px 20px' }}>
                       <p style={{ fontSize: '10px', color: accentColor, fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '4px' }}>{p.categorie}</p>

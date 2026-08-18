@@ -249,7 +249,7 @@ export default function MainPage() {
                   }}
                 >
                   {/* Image */}
-                  <div style={{ width: '100%', marginBottom: '24px', borderRadius: '16px', overflow: 'hidden', aspectRatio: '16/9' }}>
+                  <div style={{ width: '100%', marginBottom: '24px', borderRadius: '16px', overflow: 'hidden', aspectRatio: '4/3', background: 'rgba(255,255,255,0.03)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <img
                       src={product.image_url}
                       alt={product.nom}
@@ -257,8 +257,9 @@ export default function MainPage() {
                       style={{
                         width: '100%',
                         height: '100%',
-                        objectFit: 'cover',
+                        objectFit: 'contain',
                         display: 'block',
+                        padding: '16px',
                         transition: 'transform 0.5s ease',
                       }}
                       onMouseEnter={(e) => {

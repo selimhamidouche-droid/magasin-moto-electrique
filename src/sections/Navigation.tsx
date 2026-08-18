@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { getLenis } from '../hooks/useLenis';
 import { navigationConfig as defaultNavigationConfig } from '../config';
 import type { NavigationConfig } from '../config';
+import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 
 interface NavigationProps {
   config?: NavigationConfig;
@@ -14,6 +16,8 @@ export default function Navigation({
   dark = false,
 }: NavigationProps) {
   const navigationConfig = config;
+  const { totalItems } = useCart();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   const [isLightSection, setIsLightSection] = useState(!dark);
@@ -65,6 +69,27 @@ export default function Navigation({
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     e.preventDefault();
     setIsMobileMenuOpen(false); // Close menu on click
+
+    if (targetId.startsWith('/#')) {
+      if (window.location.pathname === '/') {
+        const hash = targetId.substring(1);
+        try {
+          const lenis = getLenis();
+          if (lenis) {
+            lenis.scrollTo(hash);
+          } else {
+            const el = document.querySelector(hash);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+          }
+        } catch (err) {
+          console.error("Navigation error:", err);
+        }
+      } else {
+        navigate(targetId);
+      }
+      return;
+    }
+
     if (targetId.startsWith('/')) {
       navigate(targetId);
       return;
@@ -174,6 +199,41 @@ export default function Navigation({
                 {item.label}
               </a>
             ))}
+
+            {/* Account icon */}
+            <a
+              href={user ? '/compte' : '/login'}
+              onClick={(e) => handleNavClick(e, user ? '/compte' : '/login')}
+              title={user ? 'Mon compte' : 'Connexion'}
+              style={{ color: baseTextColor, textDecoration: 'none', fontSize: '18px', opacity: 0.85, transition: 'opacity 0.3s', lineHeight: 1 }}
+              onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
+              onMouseLeave={e => (e.currentTarget.style.opacity = '0.85')}
+            >
+              {user ? '👤' : '🔑'}
+            </a>
+
+            {/* Cart icon */}
+            <a
+              href="/panier"
+              onClick={(e) => handleNavClick(e, '/panier')}
+              title="Panier"
+              style={{ position: 'relative', color: baseTextColor, textDecoration: 'none', fontSize: '18px', opacity: 0.85, transition: 'opacity 0.3s', lineHeight: 1 }}
+              onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
+              onMouseLeave={e => (e.currentTarget.style.opacity = '0.85')}
+            >
+              🛒
+              {totalItems > 0 && (
+                <span style={{
+                  position: 'absolute', top: '-8px', right: '-10px',
+                  background: '#c5a059', color: '#000',
+                  fontSize: '9px', fontWeight: 800,
+                  width: '17px', height: '17px', borderRadius: '50%',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}>
+                  {totalItems}
+                </span>
+              )}
+            </a>
           </div>
 
           {/* Mobile Nav Toggle */}

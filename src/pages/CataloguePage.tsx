@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { useLenis } from '../hooks/useLenis';
 import { usePageSEO } from '../hooks/usePageSEO';
 import Navigation from '../sections/Navigation.tsx';
 import Footer from '../sections/Footer.tsx';
 import ProductCard from '../components/ProductCard.tsx';
-import { frenchConfig, staticProducts, brandsConfig } from '../config.ts';
+import { frenchConfig, staticProducts } from '../config.ts';
 import type { ProductConfig, VehicleType } from '../config.ts';
 import { supabase } from '../lib/supabase';
 
@@ -17,7 +16,7 @@ export default function CataloguePage() {
   const [products, setProducts] = useState<ProductConfig[]>(staticProducts);
   const [loading, setLoading] = useState(true);
   const [activeType, setActiveType] = useState<FilterType>('all');
-  const [activeBrand, setActiveBrand] = useState<string>('all');
+  const [activeBrand] = useState<string>('all');
 
   useEffect(() => {
     async function fetchMotos() {
@@ -28,19 +27,29 @@ export default function CataloguePage() {
       try {
         const { data, error } = await supabase
           .from('motos')
-          .select('*')
-          .order('prix', { ascending: true });
+          .select('slug, prix, en_stock');
 
         if (error) {
           console.warn('Supabase indispo, affichage des données statiques:', error.message);
         } else if (data && data.length > 0) {
-          setProducts(data as ProductConfig[]);
+          // Utiliser staticProducts comme base pour garantir les images et types corrects,
+          // et on applique juste les prix/stocks de Supabase.
+          const mergedData = staticProducts.map(staticItem => {
+            const dbItem = data.find(db => db.slug === staticItem.slug);
+            if (dbItem) {
+              return { ...staticItem, prix: dbItem.prix, en_stock: dbItem.en_stock };
+            }
+            return staticItem;
+          });
+          setProducts(mergedData);
+          setLoading(false);
+          return;
         }
-      } catch {
-        console.warn('Impossible de contacter Supabase, données statiques utilisées.');
-      } finally {
-        setLoading(false);
+      } catch (e) {
+        console.warn('Erreur Supabase:', e);
       }
+      setProducts(staticProducts);
+      setLoading(false);
     }
     fetchMotos();
   }, []);
@@ -87,39 +96,11 @@ export default function CataloguePage() {
             <button id="filter-motos" className={`btn-base btn-primary btn-sm filter-btn ${activeType === 'moto' ? 'active' : ''}`} onClick={() => setActiveType('moto')}>Motos</button>
             <button id="filter-scooters" className={`btn-base btn-primary btn-sm filter-btn ${activeType === 'scooter' ? 'active' : ''}`} onClick={() => setActiveType('scooter')}>Scooters</button>
 
-            <span style={{ color: 'rgba(255,255,255,0.15)', fontSize: '20px', margin: '0 4px' }}>|</span>
 
-            {/* Brand filters */}
-            <button id="filter-brand-all" className={`btn-base btn-primary btn-sm filter-btn ${activeBrand === 'all' ? 'active' : ''}`} onClick={() => setActiveBrand('all')}>Toutes marques</button>
-            {brandsConfig.map(b => (
-              <button
-                key={b.slug}
-                id={`filter-brand-${b.slug}`}
-                className={`btn-base btn-primary btn-sm filter-btn ${activeBrand === b.slug ? 'active' : ''}`}
-                onClick={() => setActiveBrand(b.slug)}
-              >
-                {b.name}
-              </button>
-            ))}
           </div>
         </section>
 
-        {/* Hubs de catégorie (maillage interne) */}
-        <section style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px 32px' }}>
-          <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-            <Link to="/catalogue/motos" className="btn-base btn-primary btn-sm">
-              🏍 Hub Motos Électriques →
-            </Link>
-            <Link to="/catalogue/scooters" className="btn-base btn-primary btn-sm">
-              🛵 Hub Scooters Électriques →
-            </Link>
-            {brandsConfig.map(b => (
-              <Link key={b.slug} to={`/marques/${b.slug}`} className="btn-base btn-primary btn-sm">
-                {b.name} →
-              </Link>
-            ))}
-          </div>
-        </section>
+
 
         {/* Grille produits */}
         <section style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px 100px' }}>

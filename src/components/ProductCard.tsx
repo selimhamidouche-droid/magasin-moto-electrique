@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import type { ProductConfig } from '../config';
+import { useCart } from '../context/CartContext';
 
 interface ProductCardProps {
   product: ProductConfig;
@@ -10,6 +11,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const cardRef = useRef<HTMLAnchorElement>(null);
+  const { addToCart } = useCart();
 
   useGSAP(() => {
     gsap.from(cardRef.current, {
@@ -47,13 +49,13 @@ export default function ProductCard({ product }: ProductCardProps) {
         }}
       >
         {/* Image */}
-        <div style={{ position: 'relative', width: '100%', height: '220px', backgroundColor: '#1a1a1a', overflow: 'hidden' }}>
+        <div style={{ position: 'relative', width: '100%', height: '220px', backgroundColor: 'rgba(255,255,255,0.03)', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           {product.image_url ? (
             <img
               src={product.image_url}
               alt={product.nom}
               loading="lazy"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s ease' }}
+              style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '16px', transition: 'transform 0.5s ease', boxSizing: 'border-box' }}
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1.05)'; }}
               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1)'; }}
             />
@@ -112,13 +114,32 @@ export default function ProductCard({ product }: ProductCardProps) {
           </div>
 
           {/* Price + CTA */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px', flexWrap: 'wrap' }}>
             <span style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: '22px', fontWeight: 800, color: '#c5a059' }}>
               {product.prix.toLocaleString('fr-FR')} €
             </span>
-            <span className="btn-base btn-primary" style={{ padding: '8px 16px', fontSize: '12px' }}>
-              Voir →
-            </span>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCart(product); }}
+                style={{
+                  padding: '8px 12px', borderRadius: '10px',
+                  border: '1px solid rgba(197,160,89,0.4)',
+                  background: 'rgba(197,160,89,0.1)',
+                  color: '#c5a059', fontSize: '12px', fontWeight: 700,
+                  cursor: 'pointer', fontFamily: '"Montserrat", system-ui, sans-serif',
+                  textTransform: 'uppercase', letterSpacing: '1px',
+                  transition: 'all 0.3s ease',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(197,160,89,0.2)'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(197,160,89,0.1)'; }}
+                title="Ajouter au panier"
+              >
+                🛒
+              </button>
+              <span className="btn-base btn-primary" style={{ padding: '8px 16px', fontSize: '12px' }}>
+                Voir →
+              </span>
+            </div>
           </div>
         </div>
       </article>
