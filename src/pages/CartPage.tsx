@@ -7,6 +7,7 @@ import Navigation from '../sections/Navigation.tsx';
 import Footer from '../sections/Footer.tsx';
 import { frenchConfig } from '../config.ts';
 import { motion } from 'framer-motion';
+import { supabase } from '../lib/supabase';
 
 export default function CartPage() {
   const { user } = useAuth();
@@ -28,42 +29,28 @@ export default function CartPage() {
     setCheckoutError(null);
     
     try {
-      const formData = new URLSearchParams();
-      formData.append('success_url', `${window.location.origin}/commande-confirmee`);
-      formData.append('cancel_url', `${window.location.origin}/panier`);
-      formData.append('mode', 'payment');
-      
-      items.forEach((item, i) => {
-        formData.append(`line_items[${i}][price_data][currency]`, 'eur');
-        formData.append(`line_items[${i}][price_data][product_data][name]`, item.product.nom);
-        if (item.product.image_url) {
-          // Stripe requires absolute URLs for images, we use a placeholder or leave it out if it's a relative path
-          const imgUrl = item.product.image_url.startsWith('http') 
-            ? item.product.image_url 
-            : `${window.location.origin}${item.product.image_url}`;
-          formData.append(`line_items[${i}][price_data][product_data][images][0]`, imgUrl);
-        }
-        formData.append(`line_items[${i}][price_data][unit_amount]`, Math.round(item.product.prix * 100).toString());
-        formData.append(`line_items[${i}][quantity]`, item.quantity.toString());
+      const { data, error } = await supabase.functions.invoke('create-checkout-session', {
+        body: {
+          items,
+          successUrl: `${window.location.origin}/commande-confirmee`,
+          cancelUrl: `${window.location.origin}/panier`,
+        },
       });
 
-      const res = await fetch('https://api.stripe.com/v1/checkout/sessions', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${import.meta.env.VITE_STRIPE_SECRET_KEY}`,
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: formData.toString()
-      });
-      
-      const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        setCheckoutError(data.error?.message || 'Erreur lors de la création de la session Stripe.');
+      if (error) {
+        throw new Error(error.message);
       }
-    } catch (err) {
-      setCheckoutError((err as Error).message);
+
+      if (data?.url) {
+        window.location.href = data.url;
+      } else if (data?.error) {
+        throw new Error(data.error);
+      } else {
+        throw new Error('Erreur de création de session de paiement.');
+      }
+    } catch (err: any) {
+      console.error('Checkout error:', err);
+      setCheckoutError(err.message || 'Une erreur est survenue lors de la redirection vers le paiement.');
     } finally {
       setCheckoutLoading(false);
     }
