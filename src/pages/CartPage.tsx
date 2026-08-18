@@ -106,7 +106,12 @@ export default function CartPage() {
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '24px' }}>
               {/* Items */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <motion.div 
+                style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+              >
                 {items.map(({ product, quantity }) => (
                   <div
                     key={product.id}
