@@ -97,23 +97,25 @@ export default function Navigation({
           left: 0,
           width: '100%',
           zIndex: 100,
-          padding: scrolled ? '8px 4px' : '16px 4px',
-          transition: 'padding 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+          padding: scrolled ? '20px 16px' : '24px 16px',
+          transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
         }}
       >
         <div
           className="liquid-glass"
           style={{
             maxWidth: '1200px',
-            width: scrolled && !isMobileMenuOpen ? '48px' : '100%',
-            margin: scrolled && !isMobileMenuOpen ? '0 12px 0 auto' : '0 auto',
-            padding: scrolled && !isMobileMenuOpen ? '12px' : 'clamp(8px, 2vw, 12px) clamp(12px, 3vw, 24px)',
-            borderRadius: scrolled && !isMobileMenuOpen ? '50%' : '12px',
+            width: scrolled && !isMobileMenuOpen ? '50px' : '100%',
+            height: scrolled && !isMobileMenuOpen ? '50px' : 'auto',
+            margin: scrolled && !isMobileMenuOpen ? '0 4px 0 auto' : '0 auto',
+            padding: scrolled && !isMobileMenuOpen ? '0' : 'clamp(10px, 2vw, 14px) clamp(16px, 3vw, 28px)',
+            borderRadius: scrolled && !isMobileMenuOpen ? '9999px' : '24px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: scrolled && !isMobileMenuOpen ? 'center' : 'space-between',
-            backgroundColor: 'rgba(50, 54, 50, 0.85)',
-            transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+            backgroundColor: 'rgba(50, 54, 50, 0.88)',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
+            transition: 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
           }}
         >
           {navigationConfig.brandName ? (
@@ -273,80 +275,29 @@ export default function Navigation({
             }} />
           </button>
 
-          {/* Cover block to erase bottom border of header */}
-          <div style={{
-            position: 'absolute',
-            bottom: 0,
-            right: '24px',
-            width: '200px',
-            height: '3px',
-            backgroundColor: 'rgba(50, 54, 50, 1)',
-            opacity: isMobileMenuOpen ? 1 : 0,
-            zIndex: 20,
-            transition: 'opacity 0.3s ease',
-            pointerEvents: 'none',
-          }} />
-
-          {/* Left Concave Corner (Arrondi vers l'extérieur) */}
-          <div style={{
-            position: 'absolute',
-            bottom: 0,
-            right: '212px', // 224 - 12
-            width: '12px',
-            height: '12px',
-            backgroundColor: 'transparent',
-            borderBottomLeftRadius: '12px',
-            boxShadow: `-12px 12px 0 0 rgba(50, 54, 50, 0.95)`,
-            opacity: isMobileMenuOpen ? 1 : 0,
-            pointerEvents: 'none',
-            zIndex: 20,
-            transition: 'opacity 0.3s ease',
-          }} />
-
-          {/* Right Concave Corner (Arrondi vers l'extérieur) */}
-          <div style={{
-            position: 'absolute',
-            bottom: 0,
-            right: '24px',
-            width: '12px',
-            height: '12px',
-            backgroundColor: 'transparent',
-            borderBottomRightRadius: '12px',
-            boxShadow: `12px 12px 0 0 rgba(50, 54, 50, 0.95)`,
-            opacity: isMobileMenuOpen ? 1 : 0,
-            pointerEvents: 'none',
-            zIndex: 20,
-            transition: 'opacity 0.3s ease',
-          }} />
-
-          {/* L-Shape Dropdown Menu attached to Nav */}
+          {/* Floating Dropdown Menu attached to Nav */}
           <div
+            className="liquid-glass"
             style={{
               position: 'absolute',
-              top: '100%',
-              right: '24px',
-              width: '200px',
-              height: isMobileMenuOpen ? `${navigationConfig.links.length * 56 + 32}px` : '0px',
+              top: 'calc(100% + 12px)',
+              right: 0,
+              width: '220px',
+              height: isMobileMenuOpen ? `${navigationConfig.links.length * 54 + 36}px` : '0px',
               backgroundColor: 'rgba(50, 54, 50, 0.95)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
+              borderRadius: '20px',
               border: isMobileMenuOpen ? '1px solid rgba(255, 255, 255, 0.15)' : 'none',
-              borderTop: 'none',
-              borderBottomLeftRadius: '16px',
-              borderBottomRightRadius: '16px',
-              borderTopLeftRadius: '0',
-              borderTopRightRadius: '0',
-              transition: 'height 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)',
+              boxShadow: isMobileMenuOpen ? '0 20px 40px rgba(0,0,0,0.5)' : 'none',
+              transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
               overflow: 'hidden',
               display: 'flex',
               flexDirection: 'column',
               padding: isMobileMenuOpen ? '20px' : '0 20px',
-              gap: '24px',
-              zIndex: 19,
+              gap: '20px',
+              zIndex: 100,
+              pointerEvents: isMobileMenuOpen ? 'auto' : 'none',
             }}
           >
-            {/* We no longer need the inner cover block because we moved it outside */}
-
             {navigationConfig.links.map((item, i) => (
               <a
                 key={`mobile-${item.label}-${item.target}`}
@@ -357,7 +308,7 @@ export default function Navigation({
                 }}
                 style={{
                   fontFamily: '"Montserrat", system-ui, sans-serif',
-                  fontSize: '16px',
+                  fontSize: '15px',
                   fontWeight: 600,
                   color: baseTextColor,
                   letterSpacing: '1px',
@@ -366,7 +317,7 @@ export default function Navigation({
                   textAlign: 'right',
                   opacity: isMobileMenuOpen ? 1 : 0,
                   transform: isMobileMenuOpen ? 'translateY(0)' : 'translateY(-10px)',
-                  transition: `all 0.4s cubic-bezier(0.16, 1, 0.3, 1) ${isMobileMenuOpen ? 0.2 + (i * 0.05) : 0}s`,
+                  transition: `all 0.4s cubic-bezier(0.16, 1, 0.3, 1) ${isMobileMenuOpen ? 0.15 + (i * 0.04) : 0}s`,
                   pointerEvents: isMobileMenuOpen ? 'auto' : 'none',
                   position: 'relative',
                   zIndex: 20,
