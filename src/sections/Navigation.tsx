@@ -105,40 +105,61 @@ export default function Navigation({
           className="liquid-glass"
           style={{
             maxWidth: '1200px',
-            margin: '0 auto',
-            padding: 'clamp(8px, 2vw, 12px) clamp(12px, 3vw, 24px)',
-            borderRadius: '12px',
+            width: scrolled && !isMobileMenuOpen ? '48px' : '100%',
+            margin: scrolled && !isMobileMenuOpen ? '0 12px 0 auto' : '0 auto',
+            padding: scrolled && !isMobileMenuOpen ? '12px' : 'clamp(8px, 2vw, 12px) clamp(12px, 3vw, 24px)',
+            borderRadius: scrolled && !isMobileMenuOpen ? '50%' : '12px',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'space-between',
+            justifyContent: scrolled && !isMobileMenuOpen ? 'center' : 'space-between',
             backgroundColor: 'rgba(50, 54, 50, 0.85)',
             transition: 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
           }}
         >
           {navigationConfig.brandName ? (
-            <a
-              href="/"
-              onClick={(e) => handleNavClick(e, '/')}
-              aria-label={`${navigationConfig.brandName} — Retour à l'accueil`}
-              style={{
-                fontFamily: '"Montserrat", system-ui, sans-serif',
-                fontSize: 'clamp(16px, 4vw, 22px)',
-                fontWeight: 500,
-                color: baseTextColor,
-                letterSpacing: '2px',
-                textDecoration: 'none',
-                textTransform: 'uppercase',
-                transition: 'color 0.6s ease',
-              }}
-            >
-              {navigationConfig.brandName}
-            </a>
+            <div style={{
+              width: scrolled && !isMobileMenuOpen ? '0px' : 'auto',
+              opacity: scrolled && !isMobileMenuOpen ? 0 : 1,
+              overflow: 'hidden',
+              transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+              whiteSpace: 'nowrap',
+            }}>
+              <a
+                href="/"
+                onClick={(e) => handleNavClick(e, '/')}
+                aria-label={`${navigationConfig.brandName} — Retour à l'accueil`}
+                style={{
+                  fontFamily: '"Montserrat", system-ui, sans-serif',
+                  fontSize: 'clamp(16px, 4vw, 22px)',
+                  fontWeight: 500,
+                  color: baseTextColor,
+                  letterSpacing: '2px',
+                  textDecoration: 'none',
+                  textTransform: 'uppercase',
+                  transition: 'color 0.6s ease',
+                }}
+              >
+                {navigationConfig.brandName}
+              </a>
+            </div>
           ) : (
             <div />
           )}
 
           {/* Desktop Nav */}
-          <div className="desktop-nav" role="list" style={{ display: 'flex', gap: '36px', alignItems: 'center' }}>
+          <div 
+            className="hidden md:flex" 
+            role="list" 
+            style={{ 
+              gap: '36px', 
+              alignItems: 'center',
+              width: scrolled && !isMobileMenuOpen ? '0px' : 'auto',
+              opacity: scrolled && !isMobileMenuOpen ? 0 : 1,
+              overflow: 'hidden',
+              transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+              whiteSpace: 'nowrap',
+            }}
+          >
             {navigationConfig.links.map((item) => (
               <a
                 key={`${item.label}-${item.target}`}
@@ -206,9 +227,9 @@ export default function Navigation({
             </a>
           </div>
 
-          {/* Mobile Nav Toggle */}
+          {/* Nav Toggle (Burger Menu) */}
           <button
-            className="mobile-nav-toggle"
+            className={scrolled && !isMobileMenuOpen ? "flex" : "flex md:hidden"}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Ouvrir le menu"
             style={{

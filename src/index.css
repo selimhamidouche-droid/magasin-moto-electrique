@@ -249,20 +249,6 @@
 }
 
 
-@media (max-width: 768px) {
-  .desktop-nav {
-    display: none !important;
-  }
-  .mobile-nav-toggle {
-    display: flex !important;
-  }
-}
-@media (min-width: 769px) {
-  .mobile-nav-toggle {
-    display: none !important;
-  }
-}
-
 
 html {
   scroll-behavior: smooth;
