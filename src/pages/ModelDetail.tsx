@@ -36,81 +36,69 @@ export default function ModelDetail() {
   return (
     <>
       <Navigation config={frenchConfig.navigationConfig} dark />
-      <main id="main-content" style={{ backgroundColor: '#0f0f0f', minHeight: '100vh', paddingTop: '110px' }}>
-
+      <main id="main-content" className="bg-[#0f0f0f] min-h-screen pt-24 md:pt-28">
         {/* Hero Fiche */}
-        <section style={{ maxWidth: '1200px', margin: '0 auto', padding: '48px 24px 80px' }}>
-
+        <section className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-12">
           {/* Breadcrumb */}
-          <nav aria-label="Breadcrumb" style={{ marginBottom: '32px' }}>
-            <ol style={{ listStyle: 'none', display: 'flex', gap: '8px', alignItems: 'center', padding: 0, margin: 0, flexWrap: 'wrap' }}>
-              <li><Link to="/" style={{ color: '#555', fontSize: '12px', textDecoration: 'none' }}>Accueil</Link></li>
-              <li style={{ color: '#333', fontSize: '12px' }}>/</li>
-              <li><Link to="/catalogue" style={{ color: '#555', fontSize: '12px', textDecoration: 'none' }}>Catalogue</Link></li>
-              <li style={{ color: '#333', fontSize: '12px' }}>/</li>
-              <li><Link to={hubPath} style={{ color: '#555', fontSize: '12px', textDecoration: 'none' }}>{hubLabel}</Link></li>
+          <nav aria-label="Breadcrumb" className="mb-6 md:mb-8">
+            <ol className="flex flex-wrap items-center gap-2 m-0 p-0 list-none text-[10px] md:text-xs">
+              <li><Link to="/" className="text-neutral-500 no-underline hover:text-white transition-colors">Accueil</Link></li>
+              <li className="text-neutral-700">/</li>
+              <li><Link to="/catalogue" className="text-neutral-500 no-underline hover:text-white transition-colors">Catalogue</Link></li>
+              <li className="text-neutral-700">/</li>
+              <li><Link to={hubPath} className="text-neutral-500 no-underline hover:text-white transition-colors">{hubLabel}</Link></li>
               {brand && (
                 <>
-                  <li style={{ color: '#333', fontSize: '12px' }}>/</li>
-                  <li><Link to={`/marques/${brand.slug}`} style={{ color: '#555', fontSize: '12px', textDecoration: 'none' }}>{brand.name}</Link></li>
+                  <li className="text-neutral-700">/</li>
+                  <li><Link to={`/marques/${brand.slug}`} className="text-neutral-500 no-underline hover:text-white transition-colors">{brand.name}</Link></li>
                 </>
               )}
-              <li style={{ color: '#333', fontSize: '12px' }}>/</li>
-              <li style={{ color: accentColor, fontSize: '12px', fontWeight: 600 }}>{product.nom}</li>
+              <li className="text-neutral-700">/</li>
+              <li className="font-semibold" style={{ color: accentColor }}>{product.nom}</li>
             </ol>
           </nav>
 
           {/* Main Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '64px', alignItems: 'start' }}>
-
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
             {/* Left — Image */}
-            <div style={{
-              borderRadius: '24px', overflow: 'hidden',
-              background: 'rgba(255,255,255,0.02)',
-              border: '1px solid rgba(255,255,255,0.07)',
-              aspectRatio: '4/3',
-              position: 'relative',
-            }}>
+            <div className="rounded-3xl overflow-hidden relative aspect-square md:aspect-4/3 border border-white/10" style={{ background: 'rgba(255,255,255,0.02)' }}>
               <img
                 src={product.image_url}
                 alt={product.nom}
-                style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '24px', boxSizing: 'border-box' }}
+                className="w-full h-full object-contain p-6 md:p-12 box-border"
               />
               {/* Stock badge */}
-              <div style={{
-                position: 'absolute', top: '16px', left: '16px',
-                fontSize: '11px', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase',
-                padding: '6px 14px', borderRadius: '20px',
-                background: product.en_stock ? 'rgba(80,200,120,0.9)' : 'rgba(255,80,80,0.85)',
-                color: '#fff',
-              }}>
+              <div 
+                className="absolute top-4 left-4 text-[10px] md:text-xs font-bold tracking-wider uppercase px-3 md:px-4 py-1.5 md:py-2 rounded-full text-white shadow-lg"
+                style={{ background: product.en_stock ? 'rgba(80,200,120,0.9)' : 'rgba(255,80,80,0.85)' }}
+              >
                 {product.en_stock ? '✓ En stock' : 'Sur commande'}
               </div>
             </div>
 
             {/* Right — Infos */}
-            <div>
-              <p style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: accentColor, marginBottom: '8px' }}>
+            <div className="flex flex-col">
+              <p className="text-[10px] md:text-xs font-bold tracking-widest uppercase mb-3" style={{ color: accentColor }}>
                 {product.marque.toUpperCase()} — {product.categorie}
               </p>
-              <h1 style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 800, color: '#fff', lineHeight: 1.1, marginBottom: '16px' }}>
+              <h1 className="font-extrabold text-white leading-tight mb-4 text-3xl md:text-4xl lg:text-5xl" style={{ fontFamily: '"Montserrat", system-ui, sans-serif' }}>
                 {product.nom}
               </h1>
 
               {/* Prix */}
-              <div style={{ marginBottom: '28px' }}>
-                <span style={{ fontSize: '40px', fontWeight: 800, color: accentColor, fontFamily: '"Montserrat", system-ui, sans-serif' }}>
+              <div className="mb-6 md:mb-8 flex items-baseline flex-wrap gap-x-4 gap-y-2">
+                <span className="font-extrabold text-3xl md:text-4xl" style={{ color: accentColor, fontFamily: '"Montserrat", system-ui, sans-serif' }}>
                   {product.prix.toLocaleString('fr-FR')} €
                 </span>
-                <span style={{ fontSize: '13px', color: '#555', marginLeft: '12px' }}>ou financement disponible</span>
+                <span className="text-xs md:text-sm text-neutral-500">ou financement disponible</span>
               </div>
 
-              <p style={{ color: '#888', fontSize: '15px', lineHeight: 1.8, marginBottom: '32px' }}>
+              <p className="text-neutral-400 text-sm md:text-base leading-relaxed mb-8">
                 {product.description}
               </p>
 
               {/* Specs Grid */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '32px' }}>
+              <div className="grid grid-cols-2 gap-3 md:gap-4 mb-8">
                 {[
                   { label: 'Puissance', value: `${product.puissance_kw} kW` },
                   { label: 'Autonomie', value: `${product.autonomie} km` },
@@ -118,23 +106,18 @@ export default function ModelDetail() {
                   { label: 'Permis requis', value: product.permis_requis },
                   ...(product.specs ? Object.entries(product.specs).map(([label, value]) => ({ label, value })) : []),
                 ].map(({ label, value }) => (
-                  <div key={label} style={{
-                    padding: '14px 16px', borderRadius: '12px',
-                    background: 'rgba(255,255,255,0.04)',
-                    border: '1px solid rgba(255,255,255,0.07)',
-                  }}>
-                    <p style={{ fontSize: '10px', fontWeight: 600, letterSpacing: '1.5px', textTransform: 'uppercase', color: '#555', marginBottom: '4px' }}>{label}</p>
-                    <p style={{ fontSize: '15px', fontWeight: 700, color: '#fff' }}>{value}</p>
+                  <div key={label} className="p-3 md:p-4 rounded-xl border border-white/5 flex flex-col justify-center" style={{ background: 'rgba(255,255,255,0.04)' }}>
+                    <p className="text-[9px] md:text-[10px] font-semibold tracking-widest uppercase text-neutral-500 mb-1 md:mb-2">{label}</p>
+                    <p className="text-sm md:text-base font-bold text-white leading-tight">{value}</p>
                   </div>
                 ))}
               </div>
 
               {/* CTAs */}
-              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+              <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
                 <button
                   id="btn-commander"
-                  className="btn-base btn-primary"
-                  style={{ flex: 1, minWidth: '160px' }}
+                  className="btn-base btn-primary w-full sm:flex-1 justify-center"
                   onClick={() => {
                     addToCart(product);
                     navigate('/panier');
@@ -144,16 +127,18 @@ export default function ModelDetail() {
                 </button>
                 <button
                   id="btn-essai"
-                  className="btn-base btn-primary"
-                  style={{ flex: 1, minWidth: '160px' }}
+                  className="btn-base w-full sm:flex-1 justify-center"
+                  style={{ background: 'rgba(255,255,255,0.05)', color: '#fff', border: '1px solid rgba(255,255,255,0.1)' }}
                   onClick={() => alert(`Demande d'essai pour ${product.nom} enregistrée ! Un conseiller va vous recontacter.`)}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.1)')}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.05)')}
                 >
                   Demander un essai
                 </button>
               </div>
 
               {/* Livraison mention */}
-              <p style={{ color: '#444', fontSize: '12px', marginTop: '16px' }}>
+              <p className="text-neutral-500 text-[11px] md:text-xs mt-6 flex items-center gap-2">
                 🚚 Livraison à domicile sous 72h — Retour satisfait ou remboursé 14 jours
               </p>
             </div>
@@ -161,34 +146,27 @@ export default function ModelDetail() {
         </section>
 
         {/* Séparateur */}
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
-          <div style={{ height: '1px', background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.08), transparent)' }} />
+        <div className="max-w-7xl mx-auto px-4 md:px-6 my-4 md:my-8">
+          <div className="h-px w-full" style={{ background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.08), transparent)' }} />
         </div>
 
         {/* Produits similaires */}
         {related.length > 0 && (
-          <section style={{ maxWidth: '1200px', margin: '0 auto', padding: '64px 24px 100px' }}>
-            <h2 style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: '22px', fontWeight: 800, color: '#fff', marginBottom: '32px' }}>
+          <section className="max-w-7xl mx-auto px-4 md:px-6 pb-16 md:pb-24">
+            <h2 className="text-xl md:text-2xl font-extrabold text-white mb-6 md:mb-10" style={{ fontFamily: '"Montserrat", system-ui, sans-serif' }}>
               Autres modèles {brand?.name}
             </h2>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
               {related.map(p => (
-                <Link key={p.id} to={`/motos/${p.slug}`} style={{ textDecoration: 'none' }}>
-                  <div style={{
-                    borderRadius: '16px', overflow: 'hidden',
-                    background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)',
-                    transition: 'transform 0.3s ease, border-color 0.3s ease',
-                  }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-4px)'; (e.currentTarget as HTMLElement).style.borderColor = `${accentColor}40`; }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.07)'; }}
-                  >
-                    <div style={{ height: '180px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <img src={p.image_url} alt={p.nom} style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '12px', boxSizing: 'border-box' }} />
+                <Link key={p.id} to={`/motos/${p.slug}`} className="no-underline block group">
+                  <div className="rounded-2xl overflow-hidden border border-white/10 transition-all duration-300 group-hover:-translate-y-1" style={{ background: 'rgba(255,255,255,0.03)' }}>
+                    <div className="aspect-video md:aspect-4/3 overflow-hidden flex items-center justify-center p-4">
+                      <img src={p.image_url} alt={p.nom} className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110" />
                     </div>
-                    <div style={{ padding: '16px 20px 20px' }}>
-                      <p style={{ fontSize: '10px', color: accentColor, fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '4px' }}>{p.categorie}</p>
-                      <p style={{ fontSize: '16px', fontWeight: 800, color: '#fff', marginBottom: '8px' }}>{p.nom}</p>
-                      <p style={{ fontSize: '18px', fontWeight: 800, color: accentColor }}>{p.prix.toLocaleString('fr-FR')} €</p>
+                    <div className="p-5 md:p-6 bg-black/20">
+                      <p className="text-[10px] font-bold tracking-widest uppercase mb-1 md:mb-2" style={{ color: accentColor }}>{p.categorie}</p>
+                      <p className="text-base md:text-lg font-extrabold text-white mb-2 leading-tight">{p.nom}</p>
+                      <p className="text-lg md:text-xl font-extrabold" style={{ color: accentColor }}>{p.prix.toLocaleString('fr-FR')} €</p>
                     </div>
                   </div>
                 </Link>
@@ -198,11 +176,11 @@ export default function ModelDetail() {
         )}
 
         {/* Maillage interne bas */}
-        <section style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px 60px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-          <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginTop: '40px' }}>
-            <Link to={hubPath} style={{ color: accentColor, fontSize: '14px', textDecoration: 'none', fontWeight: 600 }}>→ Tous les {hubLabel}</Link>
-            {brand && <Link to={`/marques/${brand.slug}`} style={{ color: '#888', fontSize: '14px', textDecoration: 'none', fontWeight: 600 }}>→ Tous les {brand.name}</Link>}
-            <Link to="/catalogue" style={{ color: '#555', fontSize: '14px', textDecoration: 'none', fontWeight: 600 }}>→ Catalogue complet</Link>
+        <section className="max-w-7xl mx-auto px-4 md:px-6 pb-12 md:pb-16 border-t border-white/5 pt-8 md:pt-12">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 flex-wrap">
+            <Link to={hubPath} className="text-sm font-semibold hover:underline" style={{ color: accentColor }}>→ Tous les {hubLabel}</Link>
+            {brand && <Link to={`/marques/${brand.slug}`} className="text-neutral-400 text-sm font-semibold hover:text-white transition-colors">→ Tous les {brand.name}</Link>}
+            <Link to="/catalogue" className="text-neutral-500 text-sm font-semibold hover:text-white transition-colors">→ Catalogue complet</Link>
           </div>
         </section>
 
