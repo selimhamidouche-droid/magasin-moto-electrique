@@ -7,6 +7,7 @@ import ProductCard from '../components/ProductCard.tsx';
 import { frenchConfig, staticProducts } from '../config.ts';
 import type { ProductConfig, VehicleType } from '../config.ts';
 import { supabase } from '../lib/supabase';
+import { motion } from 'framer-motion';
 
 type FilterType = 'all' | VehicleType;
 
@@ -76,16 +77,22 @@ export default function CataloguePage() {
 
         {/* Hero Header */}
         <section style={{ maxWidth: '1200px', margin: '0 auto', padding: '60px 24px 48px' }}>
-          <p style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#c5a059', marginBottom: '16px' }}>
-            Notre Catalogue
-          </p>
-          <h1 style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: 800, color: '#fff', lineHeight: 1.1, marginBottom: '16px' }}>
-            Motos & Scooters<br />
-            <em style={{ fontStyle: 'italic', color: '#c5a059' }}>Électriques</em>
-          </h1>
-          <p style={{ color: '#888', fontSize: '16px', maxWidth: '560px', lineHeight: 1.7 }}>
-            {filtered.length} véhicule{filtered.length > 1 ? 's' : ''} disponible{filtered.length > 1 ? 's' : ''}. Livraison sous 72h, garantie certifiée.
-          </p>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
+            <p style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#c5a059', marginBottom: '16px' }}>
+              Notre Catalogue
+            </p>
+            <h1 style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: 'clamp(32px, 5vw, 56px)', fontWeight: 800, color: '#fff', lineHeight: 1.1, marginBottom: '16px' }}>
+              Motos & Scooters<br />
+              <em style={{ fontStyle: 'italic', color: '#c5a059' }}>Électriques</em>
+            </h1>
+            <p style={{ color: '#888', fontSize: '16px', maxWidth: '560px', lineHeight: 1.7 }}>
+              {filtered.length} véhicule{filtered.length > 1 ? 's' : ''} disponible{filtered.length > 1 ? 's' : ''}. Livraison sous 72h, garantie certifiée.
+            </p>
+          </motion.div>
         </section>
 
         {/* Filtres */}
@@ -114,7 +121,17 @@ export default function CataloguePage() {
             </div>
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '24px' }}>
-              {filtered.map(p => <ProductCard key={p.id} product={p} />)}
+              {filtered.map((p, index) => (
+                <motion.div
+                  key={p.id}
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.1 }}
+                  transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
+                >
+                  <ProductCard product={p} />
+                </motion.div>
+              ))}
             </div>
           )}
         </section>

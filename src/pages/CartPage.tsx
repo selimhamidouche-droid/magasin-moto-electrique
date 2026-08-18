@@ -6,6 +6,7 @@ import { usePageSEO } from '../hooks/usePageSEO';
 import Navigation from '../sections/Navigation.tsx';
 import Footer from '../sections/Footer.tsx';
 import { frenchConfig } from '../config.ts';
+import { motion } from 'framer-motion';
 
 export default function CartPage() {
   const { user } = useAuth();
@@ -119,7 +120,6 @@ export default function CartPage() {
                       )}
                     </div>
 
-                    {/* Info */}
                     <div style={{ flex: 1, minWidth: '180px' }}>
                       <p style={{ fontSize: '11px', color: '#c5a059', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '4px' }}>
                         {product.marque}
@@ -130,7 +130,6 @@ export default function CartPage() {
                       <p style={{ fontSize: '13px', color: '#888' }}>{product.categorie}</p>
                     </div>
 
-                    {/* Qty */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                       <button
                         onClick={() => updateQty(product.id, quantity - 1)}
@@ -143,7 +142,6 @@ export default function CartPage() {
                       >+</button>
                     </div>
 
-                    {/* Price */}
                     <div style={{ textAlign: 'right', minWidth: '120px' }}>
                       <p style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: '18px', fontWeight: 800, color: '#c5a059' }}>
                         {(product.prix * quantity).toLocaleString('fr-FR')} €
@@ -157,57 +155,63 @@ export default function CartPage() {
                     </div>
                   </div>
                 ))}
-              </div>
+              </motion.div>
 
-              {/* Summary */}
-              <div className="liquid-glass border border-white/10" style={{ borderRadius: '20px', padding: '32px' }}>
-                <h2 style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: '16px', fontWeight: 700, color: '#fff', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '24px' }}>
-                  Résumé
-                </h2>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '24px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span style={{ color: '#888', fontSize: '14px' }}>Sous-total</span>
-                    <span style={{ color: '#fff', fontSize: '14px', fontWeight: 600 }}>{totalPrice.toLocaleString('fr-FR')} €</span>
+              <motion.div 
+                className="lg:col-span-4"
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+              >
+                <div className="liquid-glass border border-white/10" style={{ borderRadius: '20px', padding: '32px' }}>
+                  <h2 style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: '16px', fontWeight: 700, color: '#fff', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '24px' }}>
+                    Résumé
+                  </h2>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '24px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <span style={{ color: '#888', fontSize: '14px' }}>Sous-total</span>
+                      <span style={{ color: '#fff', fontSize: '14px', fontWeight: 600 }}>{totalPrice.toLocaleString('fr-FR')} €</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <span style={{ color: '#888', fontSize: '14px' }}>Livraison</span>
+                      <span style={{ color: '#6bffb8', fontSize: '14px', fontWeight: 600 }}>Gratuite</span>
+                    </div>
+                    <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '12px', display: 'flex', justifyContent: 'space-between' }}>
+                      <span style={{ color: '#fff', fontSize: '16px', fontWeight: 700 }}>Total</span>
+                      <span style={{ color: '#c5a059', fontSize: '20px', fontWeight: 800 }}>{totalPrice.toLocaleString('fr-FR')} €</span>
+                    </div>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span style={{ color: '#888', fontSize: '14px' }}>Livraison</span>
-                    <span style={{ color: '#6bffb8', fontSize: '14px', fontWeight: 600 }}>Gratuite</span>
-                  </div>
-                  <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '12px', display: 'flex', justifyContent: 'space-between' }}>
-                    <span style={{ color: '#fff', fontSize: '16px', fontWeight: 700 }}>Total</span>
-                    <span style={{ color: '#c5a059', fontSize: '20px', fontWeight: 800 }}>{totalPrice.toLocaleString('fr-FR')} €</span>
-                  </div>
+
+                  {!user && (
+                    <p style={{ fontSize: '13px', color: '#888', marginBottom: '16px', textAlign: 'center' }}>
+                      Vous devez être{' '}
+                      <Link to="/login" style={{ color: '#c5a059', fontWeight: 700 }}>connecté</Link>
+                      {' '}pour commander.
+                    </p>
+                  )}
+
+                  {checkoutError && (
+                    <p style={{ color: '#ff6b6b', fontSize: '13px', background: 'rgba(255,100,100,0.1)', padding: '10px', borderRadius: '8px', marginBottom: '12px', textAlign: 'center' }}>
+                      {checkoutError}
+                    </p>
+                  )}
+
+                  <button
+                    onClick={handleOrder}
+                    disabled={checkoutLoading}
+                    className="btn-base btn-primary"
+                    style={{ width: '100%', justifyContent: 'center', marginBottom: '12px', opacity: checkoutLoading ? 0.6 : 1 }}
+                  >
+                    {checkoutLoading ? 'Redirection...' : user ? 'Commander →' : 'Se connecter pour commander'}
+                  </button>
+                  <button
+                    onClick={clearCart}
+                    style={{ width: '100%', padding: '10px', background: 'transparent', border: 'none', color: '#555', fontSize: '12px', cursor: 'pointer', fontFamily: '"Montserrat", system-ui, sans-serif' }}
+                  >
+                    Vider le panier
+                  </button>
                 </div>
-
-                {!user && (
-                  <p style={{ fontSize: '13px', color: '#888', marginBottom: '16px', textAlign: 'center' }}>
-                    Vous devez être{' '}
-                    <Link to="/login" style={{ color: '#c5a059', fontWeight: 700 }}>connecté</Link>
-                    {' '}pour commander.
-                  </p>
-                )}
-
-                {checkoutError && (
-                  <p style={{ color: '#ff6b6b', fontSize: '13px', background: 'rgba(255,100,100,0.1)', padding: '10px', borderRadius: '8px', marginBottom: '12px', textAlign: 'center' }}>
-                    {checkoutError}
-                  </p>
-                )}
-
-                <button
-                  onClick={handleOrder}
-                  disabled={checkoutLoading}
-                  className="btn-base btn-primary"
-                  style={{ width: '100%', justifyContent: 'center', marginBottom: '12px', opacity: checkoutLoading ? 0.6 : 1 }}
-                >
-                  {checkoutLoading ? 'Redirection...' : user ? 'Commander →' : 'Se connecter pour commander'}
-                </button>
-                <button
-                  onClick={clearCart}
-                  style={{ width: '100%', padding: '10px', background: 'transparent', border: 'none', color: '#555', fontSize: '12px', cursor: 'pointer', fontFamily: '"Montserrat", system-ui, sans-serif' }}
-                >
-                  Vider le panier
-                </button>
-              </div>
+              </motion.div>
             </div>
           )}
         </div>

@@ -5,6 +5,7 @@ import Navigation from '../sections/Navigation.tsx';
 import Footer from '../sections/Footer.tsx';
 import ProductCard from '../components/ProductCard.tsx';
 import { frenchConfig, brandsConfig, staticProducts } from '../config.ts';
+import { motion } from 'framer-motion';
 
 export default function MarquePage() {
   useLenis();
@@ -45,7 +46,11 @@ export default function MarquePage() {
             transform: 'scale(1.1)',
           }} />
 
-          <div style={{ position: 'relative', maxWidth: '1200px', margin: '0 auto', padding: '60px 24px 80px' }}>
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            style={{ position: 'relative', maxWidth: '1200px', margin: '0 auto', padding: '60px 24px 80px' }}>
             {/* Breadcrumb */}
             <nav aria-label="Breadcrumb" style={{ marginBottom: '32px' }}>
               <ol style={{ listStyle: 'none', display: 'flex', gap: '8px', alignItems: 'center', padding: 0, margin: 0 }}>
@@ -108,7 +113,7 @@ export default function MarquePage() {
               {/* Clear float to prevent overlapping below */}
               <div style={{ clear: 'both' }} />
             </div>
-          </div>
+          </motion.div>
         </section>
 
         {/* Separator */}
@@ -122,7 +127,17 @@ export default function MarquePage() {
             Nos {brand.name} disponibles
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '24px' }}>
-            {brandProducts.map(p => <ProductCard key={p.id} product={p} />)}
+            {brandProducts.map((p, index) => (
+              <motion.div
+                key={p.id}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
+              >
+                <ProductCard product={p} />
+              </motion.div>
+            ))}
           </div>
         </section>
 

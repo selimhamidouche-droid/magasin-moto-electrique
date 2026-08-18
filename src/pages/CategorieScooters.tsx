@@ -5,6 +5,7 @@ import Navigation from '../sections/Navigation.tsx';
 import Footer from '../sections/Footer.tsx';
 import ProductCard from '../components/ProductCard.tsx';
 import { frenchConfig, staticProducts, brandsConfig } from '../config.ts';
+import { motion } from 'framer-motion';
 
 const scooters = staticProducts.filter(p => p.type_vehicule === 'scooter');
 
@@ -26,7 +27,7 @@ export default function CategorieScooters() {
       <main id="main-content" style={{ backgroundColor: '#0f0f0f', minHeight: '100vh', paddingTop: '110px' }}>
 
         {/* Hero */}
-        <section style={{ maxWidth: '1200px', margin: '0 auto', padding: '60px 24px 56px' }}>
+        <section style={{ maxWidth: '1200px', margin: '0 auto', padding: '60px 24px 48px' }}>
           {/* Breadcrumb */}
           <nav aria-label="Breadcrumb" style={{ marginBottom: '24px' }}>
             <ol style={{ listStyle: 'none', display: 'flex', gap: '8px', alignItems: 'center', padding: 0, margin: 0 }}>
@@ -38,26 +39,32 @@ export default function CategorieScooters() {
             </ol>
           </nav>
 
-          <p style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#64b4ff', marginBottom: '16px' }}>
-            Catégorie
-          </p>
-          <h1 style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: 'clamp(36px, 6vw, 64px)', fontWeight: 800, color: '#fff', lineHeight: 1.05, marginBottom: '20px' }}>
-            Scooters<br />
-            <em style={{ fontStyle: 'italic', color: '#64b4ff' }}>Électriques</em>
-          </h1>
-          <p style={{ color: '#888', fontSize: '16px', maxWidth: '640px', lineHeight: 1.8, marginBottom: '40px' }}>
-            Des scooters électriques intelligents et connectés, taillés pour la ville. 
-            Batteries amovibles, application mobile intégrée, zéro entretien moteur. Découvrez nos <strong style={{ color: '#ccc' }}>{scooters.length} modèles</strong> disponibles, accessibles dès le BSR.
-          </p>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
+            <p style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#64b4ff', marginBottom: '16px' }}>
+              Catégorie
+            </p>
+            <h1 style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: 'clamp(36px, 6vw, 64px)', fontWeight: 800, color: '#fff', lineHeight: 1.05, marginBottom: '20px' }}>
+              Scooters<br />
+              <em style={{ fontStyle: 'italic', color: '#64b4ff' }}>Électriques</em>
+            </h1>
+            <p style={{ color: '#888', fontSize: '16px', maxWidth: '640px', lineHeight: 1.8, marginBottom: '40px' }}>
+              L'alliance parfaite entre praticité urbaine et technologies intelligentes. 
+              Parfaits pour vos trajets quotidiens sans compromis sur le style et le confort. Découvrez notre sélection de <strong style={{ color: '#ccc' }}>{scooters.length} modèles</strong> disponibles à la livraison sous 72h.
+            </p>
 
-          {/* Marques links */}
-          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-            {scooterBrands.map(b => (
-              <Link key={b.slug} to={`/marques/${b.slug}`} className="btn-base btn-primary btn-sm">
-                Voir toutes les {b.name} →
-              </Link>
-            ))}
-          </div>
+            {/* Marques links */}
+            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+              {scooterBrands.map(b => (
+                <Link key={b.slug} to={`/marques/${b.slug}`} className="btn-base btn-primary btn-sm" style={{ borderColor: '#64b4ff', color: '#64b4ff' }}>
+                  Voir tous les {b.name} →
+                </Link>
+              ))}
+            </div>
+          </motion.div>
         </section>
 
         {/* Separator */}
@@ -67,8 +74,18 @@ export default function CategorieScooters() {
 
         {/* Grille produits */}
         <section style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px 100px' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '24px' }}>
-            {scooters.map(p => <ProductCard key={p.id} product={p} />)}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '24px' }}>
+            {scooters.map((p, index) => (
+              <motion.div
+                key={p.id}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
+              >
+                <ProductCard product={p} />
+              </motion.div>
+            ))}
           </div>
         </section>
 

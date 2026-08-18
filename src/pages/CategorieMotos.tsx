@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { useLenis } from '../hooks/useLenis';
 import { usePageSEO } from '../hooks/usePageSEO';
 import Navigation from '../sections/Navigation.tsx';
@@ -38,26 +39,32 @@ export default function CategorieMotos() {
             </ol>
           </nav>
 
-          <p style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#c5a059', marginBottom: '16px' }}>
-            Catégorie
-          </p>
-          <h1 style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: 'clamp(36px, 6vw, 64px)', fontWeight: 800, color: '#fff', lineHeight: 1.05, marginBottom: '20px' }}>
-            Motos<br />
-            <em style={{ fontStyle: 'italic', color: '#c5a059' }}>Électriques</em>
-          </h1>
-          <p style={{ color: '#888', fontSize: '16px', maxWidth: '640px', lineHeight: 1.8, marginBottom: '40px' }}>
-            Des motos électriques homologuées route, taillées pour le trial, l'enduro et la performance pure. 
-            Légères, maniables et puissantes — sans bruit, sans émissions. Découvrez notre sélection de <strong style={{ color: '#ccc' }}>{motos.length} modèles</strong> disponibles à la livraison sous 72h.
-          </p>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
+            <p style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: '11px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase', color: '#c5a059', marginBottom: '16px' }}>
+              Catégorie
+            </p>
+            <h1 style={{ fontFamily: '"Montserrat", system-ui, sans-serif', fontSize: 'clamp(36px, 6vw, 64px)', fontWeight: 800, color: '#fff', lineHeight: 1.05, marginBottom: '20px' }}>
+              Motos<br />
+              <em style={{ fontStyle: 'italic', color: '#c5a059' }}>Électriques</em>
+            </h1>
+            <p style={{ color: '#888', fontSize: '16px', maxWidth: '640px', lineHeight: 1.8, marginBottom: '40px' }}>
+              Des motos électriques homologuées route, taillées pour le trial, l'enduro et la performance pure. 
+              Légères, maniables et puissantes — sans bruit, sans émissions. Découvrez notre sélection de <strong style={{ color: '#ccc' }}>{motos.length} modèles</strong> disponibles à la livraison sous 72h.
+            </p>
 
-          {/* Marques links */}
-          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-            {motosBrands.map(b => (
-              <Link key={b.slug} to={`/marques/${b.slug}`} className="btn-base btn-primary btn-sm">
-                Voir toutes les {b.name} →
-              </Link>
-            ))}
-          </div>
+            {/* Marques links */}
+            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+              {motosBrands.map(b => (
+                <Link key={b.slug} to={`/marques/${b.slug}`} className="btn-base btn-primary btn-sm">
+                  Voir toutes les {b.name} →
+                </Link>
+              ))}
+            </div>
+          </motion.div>
         </section>
 
         {/* Separator */}
@@ -67,8 +74,18 @@ export default function CategorieMotos() {
 
         {/* Grille produits */}
         <section style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px 100px' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '24px' }}>
-            {motos.map(p => <ProductCard key={p.id} product={p} />)}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '24px' }}>
+            {motos.map((p, index) => (
+              <motion.div
+                key={p.id}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
+              >
+                <ProductCard product={p} />
+              </motion.div>
+            ))}
           </div>
         </section>
 

@@ -6,6 +6,7 @@ import { usePageSEO } from '../hooks/usePageSEO';
 import Navigation from '../sections/Navigation.tsx';
 import Footer from '../sections/Footer.tsx';
 import { frenchConfig, staticProducts, brandsConfig } from '../config.ts';
+import { motion } from 'framer-motion';
 
 export default function ModelDetail() {
   useLenis();
@@ -77,7 +78,12 @@ export default function ModelDetail() {
           {/* Main Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
             {/* Left — Image & Interactive Gallery */}
-            <div className="flex flex-col gap-4">
+            <motion.div 
+              className="flex flex-col gap-4"
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
               <div 
                 className="rounded-3xl overflow-hidden relative aspect-square md:aspect-4/3 border border-white/10 flex items-center justify-center transition-all duration-300"
                 style={{ background: 'radial-gradient(circle at center, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%)' }}
@@ -128,10 +134,15 @@ export default function ModelDetail() {
                   })}
                 </div>
               )}
-            </div>
+            </motion.div>
 
             {/* Right — Infos & Customization */}
-            <div className="flex flex-col">
+            <motion.div 
+              className="flex flex-col"
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+            >
               <p className="text-[10px] md:text-xs font-bold tracking-widest uppercase mb-3" style={{ color: accentColor }}>
                 {product.marque.toUpperCase()} — {product.categorie}
               </p>
@@ -253,7 +264,7 @@ export default function ModelDetail() {
               <p className="text-neutral-400 text-[11px] md:text-xs mt-6 flex items-center gap-2">
                 🚚 Livraison à domicile sous 72h prête à rouler — Garantie constructeur 2 ans
               </p>
-            </div>
+            </motion.div>
           </div>
         </section>
 
