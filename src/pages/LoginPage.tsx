@@ -17,8 +17,9 @@ export default function LoginPage() {
 
   usePageSEO({
     title: 'Connexion — MotoVite',
-    description: 'Connectez-vous à votre compte MotoVite pour accéder à votre panier et à votre espace client.',
+    description: 'Connectez-vous à votre compte MotoVite pour gérer vos commandes.',
     lang: 'fr',
+    canonicalUrl: 'https://www.motovite.com/login',
   });
 
   const handleSubmit = async (e: React.FormEvent) => {

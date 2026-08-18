@@ -14,8 +14,9 @@ export default function ComptePage() {
 
   usePageSEO({
     title: 'Mon Compte — MotoVite',
-    description: 'Gérez votre compte MotoVite : informations personnelles et panier.',
+    description: 'Gérez votre profil, vos commandes et vos préférences sur MotoVite.',
     lang: 'fr',
+    canonicalUrl: 'https://www.motovite.com/compte',
   });
 
   useEffect(() => {
